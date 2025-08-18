@@ -10,6 +10,7 @@ import java.util.List;
 public class PerftTest {
 
     public static void main(String[] args) {
+        System.out.println();
         fenValidationTest.runTest();
         System.out.println(FenValidation.isValidFenSyntax("rnbqkbnr/pp1p1ppp/8/2pPpP2/8/8/PPP2PPP/RNBQKBNR w Kkq e6 0 1"));
         for (String fen: FENS){
