@@ -1,4 +1,4 @@
-package chesslib.exeptions;
+package chesslib.exceptions;
 
 public class IllegalMoveExceptions extends ChessException{
 

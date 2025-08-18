@@ -1,7 +1,7 @@
 package chesslib;
 
-import chesslib.exeptions.IllegalMoveExceptions;
-import chesslib.exeptions.IllegalPositionException;
+import chesslib.exceptions.IllegalMoveExceptions;
+import chesslib.exceptions.IllegalPositionException;
 import chesslib.move.MoveGenerator;
 import chesslib.move.MoveList;
 import chesslib.types.*;
@@ -29,56 +29,15 @@ public class GameManager {
             "(O-O(?:-O)?[+#]?|[KQRBN]([a-h]?[1-8]?)(x?)([a-h][1-8])([+#]?)|(([a-h]x)?[a-h][1-8])(=[QRBN])?[+#]?)"
     );
 
-    public static final String FEN_FULLY_LEGAL = "Position is legal.";
     public static final String INVALID_FEN_SYNTAX = "Invalid fen! Fen syntax error!";
-    public static final String INVALID_FEN_KING = "Invalid position! Position mast contains exactly one king for each side.";
-    public static final String INVALID_FEN_CHECK = "Invalid position! Side to move cannot be capture opponent king.";
-    public static final String INVALID_FEN_PAWNS = "Invalid position! Pawns cannot be placed on first or last rank.";
 
-    //    private final Object positionLock = new Object(); // todo maybe need sycrinise mechaniim
+
     public static final String FEN_START_GAME = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     private volatile Position position;
 
     // optional
     private volatile MoveList moveList;
 
-
-//    private static void checkFen(String fen) {
-//        String status = "Fen could not be null!";
-//        if (fen == null || !(status = fenStatus(fen)).equals(FEN_FULLY_LEGAL)) {
-//            throw new IllegalArgumentException(status);
-//        }
-//
-//    }
-//    public static String fenStatus2(String fen) { // todo need to support chess60
-//        try {
-//            new GameManager();
-//            return FEN_FULLY_LEGAL;
-//        }
-//        catch (IllegalPositionException e){
-//            return e.getMessage();
-//        }
-//    }
-
-//    public static String fenStatus(String fen) { // todo need to support chess60
-//        if (!FenValidation.isValidFenSyntax(fen)) {
-//            return INVALID_FEN_SYNTAX;
-//        }
-//
-//        if (!FenValidation.isValidKingsCount(fen)) {
-//            return INVALID_FEN_KING;
-//        }
-//
-//        if (!FenValidation.isValidPawnsPlacement(fen)) {
-//            return INVALID_FEN_PAWNS;
-//        }
-//        Position pos = new Position(fen);
-//        if (!pos.positionIsLegal()) {
-//            return INVALID_FEN_CHECK;
-//        }
-//
-//        return FEN_FULLY_LEGAL;
-//    }
 
     public static boolean isFenRepresentLegalPosition(String fen) {
         try {
@@ -114,14 +73,6 @@ public class GameManager {
      * @param newFen the new FEN position string
      */
     public void setFen(String newFen) throws IllegalPositionException {
-//        if (!FenValidation.isValidFenSyntax(newFen)){
-//            throw new IllegalPositionException(INVALID_FEN_SYNTAX);
-//        }
-////        checkFe/n(newFen);
-//        position = new Position(newFen);
-//        position.positionIsLegalOrThrow();
-//        moveList = null;
-//        // todo set move list and game status to null
         setFen(newFen, true);
     }
 
