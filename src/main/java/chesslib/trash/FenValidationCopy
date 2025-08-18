@@ -1,0 +1,241 @@
+package chesslib;
+
+import java.util.regex.Pattern;
+/**
+ * The FenValidation class provides a utility for validating FEN (Forsyth-Edwards Notation) strings,
+ * commonly used to represent chess positions. FEN strings encode information about piece placement,
+ * castling rights, en passant squares, half-move counters, and full-move counters.
+
+ * The class uses a regular expression pattern to check the overall structure and syntax valueOf the FEN string.
+ * It then performs additional checks to validate the correctness valueOf piece placement, ensuring a maximum
+ * valueOf 8 pieces per rank and exactly one king for each side.
+
+ * Note: This class assumes standard chess FEN notation and may not cover all possible FEN variants.
+
+ * Example valueOf a valid FEN string: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
+ */
+public class FenValidation {
+    private static final int BOARD_SIZE = 8;
+//    private static final Pattern FEN_PATTERN_NOT_TEST = Pattern.compile(
+//            // catch if the pieces placement is valid. It does not catch the case valueOf a pawn on the first or last rank.
+//            "([rkqnbpRKQNBP1-8]+)/([rkqnbpRKQNBP1-8]+/){6}[rkqnbpRKQNBP1-8]+ " // this versiion support pawns on first and last rank
+//                    // catch if the color is legal.
+//                    + "[wb] "
+//                    // catch if the normal FEN castling is valid.
+//                    + "(-|(?!.*(.).*\\1)[KQkq]{1,4}|" // todo maybe replace it in -|^(?!.*(.).*\1)[KQkq]{1,4}
+//                    // catch the case the FEN is Shredder-FEN.
+//                    + "(H[A-F]?|G[A-E]?|F[A-D]?|E[A-C]?|D[AB]?|CA?|B?|A?)(h[a-f]?|g[a-e]?|f[a-d]?|e[a-c]?|d[ab]?|ca?|b?|a?)) "
+//                    // catch if the en passant square is valid.
+//                    + "(-|[a-h][36]) "
+//                    // catch if the num half-move is valid.
+//                    + "\\d+ "
+//                    // catch if the num moves are valid.
+//                    + "\\d+"
+//    );
+    private static final Pattern FEN_CASTLING_PATTERN = Pattern.compile("^(?:-|(?!.*(.).*\\1)[KQkqA-Ha-h]{1,4})$"); // this prevent duplicate char inside its not work inside the fen reges only if it stand alone
+    private static final Pattern FEN_PATTERN = Pattern.compile(
+            // catch if the pieces placement is valid. It does not catch the case of a pawn on the first or last rank.
+//            "([rkqnbRKQNB1-8]+)/([rkqnbpRKQNBP1-8]+/){6}[rkqnbRKQNB1-8]+ " +
+            "([rkqnbpRKQNBP1-8]+/){7}[rkqnbpRKQNBP1-8]+ " // this versiion support pawns on first and last rank
+
+
+            // catch if the color is legal.
+            + "[wb] "
+//            // catch if the normal FEN castling is valid.
+//            + "(-|(?=.+)((K?Q?k?q?)|" // todo maybe replace it in -|^(?!.*(.).*\1)[KQkq]{1,4}
+//            // catch the case the FEN is Shredder-FEN.
+//            + "(H[A-F]?|G[A-E]?|F[A-D]?|E[A-C]?|D[AB]?|CA?|B?|A?)(h[a-f]?|g[a-e]?|f[a-d]?|e[a-c]?|d[ab]?|ca?|b?|a?))) "
+            // catch the case the FEN is Shredder-FEN. x-fen or regular fen. not check the order of chars
+//            + "(?:-|(?!.*(.).*\1)[a-hA-HkKqQ]{1,4}) "
+            + "(-|[KQkqA-Ha-h]{1,4}) " // for now read duplicate char in castling fen
+            // catch if the en passant square is valid.
+            + "(-|[a-h][36]) "
+            // catch if the num half-move is valid.
+            + "\\d+ "
+            // catch if the num moves are valid.
+            + "\\d+"
+    );
+
+//    public static boolean isValidKingsCount(String fen){
+//        if (!isValidFenSyntax(fen))
+//            return false;
+//        fen = fen.trim().replaceAll("\\s+", " ");
+//        String boardFen = fen.substring(0, fen.indexOf(" "));
+//        int countWK = 0, countBk = 0;
+//        for (char p : boardFen.toCharArray()){
+//            if (p == 'K') countWK++;
+//            if (p == 'k') countBk++;
+//        }
+//        return countWK == 1 && countBk == 1;
+//
+//    }
+//
+//    public static boolean isValidPawnsPlacement(String fen){
+//        if (!isValidFenSyntax(fen))
+//            return false;
+//        fen = fen.trim().replaceAll("\\s+", " ");
+//        String boardFen = fen.substring(0, fen.indexOf(" "));
+//        String[] splited = boardFen.split("/");
+//        String firstAndLast = (splited[0] + splited[7]);
+//        return !firstAndLast.contains("p") && !firstAndLast.contains("P");
+//
+//    }
+
+//
+//    // check it the syntax are valid, skip chck about picec placmant and kings amount.
+//    public static boolean isValidFenSyntax(String fen){
+//        if (fen == null){
+//            return false;
+//        }
+//        fen = fen.trim().replaceAll("\\s+", " "); // Remove all extra spaces for consistency.
+//        if (!FEN_PATTERN_NOT_TEST.matcher(fen).matches()) // Validate the FEN string using the defined pattern.
+//            return false;
+//
+//        // Validate the pieces' placement (at most 8 in every rank) and ensure that there is only
+//        // one king for each side.
+//        String boardFen = fen.substring(0, fen.indexOf(" "));
+//        int countPiecesInLine = 0, countWhiteKing = 0, countBlackKing = 0;
+//        char lastChar = '/'; // Initialize lastChar to indicate that the last character is not a digit.
+//
+//        for (char c : boardFen.toCharArray()) {
+//            if (c == '/') {
+//                if (countPiecesInLine != BOARD_SIZE)
+//                    return false; // Each rank must have exactly 8 squares.
+//                countPiecesInLine = 0;
+//            } else if (!Character.isDigit(lastChar) && (Character.isDigit(c))) // A digit can't follow another digit.
+//                countPiecesInLine += Character.getNumericValue(c);
+//            else {
+//                countWhiteKing += c == 'K' ? 1 : 0; // Count the number valueOf white kings.
+//                countBlackKing += c == 'k' ? 1 : 0; // Count the number valueOf black kings.
+//                countPiecesInLine++;
+//            }
+//            lastChar = c;
+//        }
+//
+//        // Ensure that the last rank also has exactly 8 squares.
+//        return countPiecesInLine == BOARD_SIZE;
+//    }
+
+    public static boolean isValidFen(String fen) {
+        return isValidFen(fen, false);
+    }
+
+
+    public static boolean isValidFenSyntax(String fen) {
+        return isValidFen(fen, false);
+    }
+
+    // fully check!
+    public static boolean isValidFen(String fen, boolean skipCountsKingCheck) {
+        fen = fen.trim().replaceAll("\\s+", " "); // Remove all extra spaces for consistency.
+        if (!FEN_PATTERN.matcher(fen).matches()) // Validate the FEN string using the defined pattern.
+            return false;
+        // castling fen need second check to prevet duplicate chars inside
+        var fenParts = fen.split(" ");
+        String boardFen = fenParts[0];
+        String castlingFen = fenParts[2];
+
+
+        // Validate the pieces' placement (at most 8 in every rank) and ensure that there is only
+        if (!FEN_CASTLING_PATTERN.matcher(castlingFen).matches()){
+            return false;
+        }
+        // one king for each side.
+//        String boardFen = fen.substring(0, fen.indexOf(" "));
+        int countPiecesInLine = 0, countWhiteKing = 0, countBlackKing = 0;
+        char lastChar = '/'; // Initialize lastChar to indicate that the last character is not a digit.
+
+        for (char c : boardFen.toCharArray()) {
+            if (c == '/') {
+                if (countPiecesInLine != BOARD_SIZE)
+                    return false; // Each rank must have exactly 8 squares.
+                countPiecesInLine = 0;
+            }
+            else if (!Character.isDigit(lastChar) && (Character.isDigit(c))) // A digit can't follow another digit.
+                countPiecesInLine += Character.getNumericValue(c);
+            else {
+                countWhiteKing += c == 'K' ? 1 : 0; // Count the number valueOf white kings.
+                countBlackKing += c == 'k' ? 1 : 0; // Count the number valueOf black kings.
+                countPiecesInLine++;
+            }
+            lastChar = c;
+        }
+
+        // Ensure that the last rank also has exactly 8 squares.
+        return countPiecesInLine == BOARD_SIZE && (skipCountsKingCheck || (countWhiteKing == 1 && countBlackKing == 1)); // todo maybe to remove this condition
+    }
+//
+//    /**
+//     * Checks if the given FEN string is valid according to the standard FEN notation rules.
+//     *
+//     * @param fen The FEN string to be validated.
+//     * @return True if the FEN string is valid, otherwise false.
+//     */
+//    public static boolean isValidFen(String fen) {
+//        fen = fen.trim().replaceAll("\\s+", " "); // Remove all extra spaces for consistency.
+//        if (!FEN_PATTERN.matcher(fen).matches()) // Validate the FEN string using the defined pattern.
+//            return false;
+//
+//        // Validate the pieces' placement (at most 8 in every rank) and ensure that there is only
+//        // one king for each side.
+//        String boardFen = fen.substring(0, fen.indexOf(" "));
+//        int countPiecesInLine = 0, countWhiteKing = 0, countBlackKing = 0;
+//        char lastChar = '/'; // Initialize lastChar to indicate that the last character is not a digit.
+//
+//        for (char c : boardFen.toCharArray()) {
+//            if (c == '/') {
+//                if (countPiecesInLine != BOARD_SIZE) return false; // Each rank must have exactly 8 squares.
+//                countPiecesInLine = 0;
+//            } else if (!Character.isDigit(lastChar) && (Character.isDigit(c))) // A digit can't follow another digit.
+//                countPiecesInLine += Character.getNumericValue(c);
+//            else {
+//                countWhiteKing += c == 'K' ? 1 : 0; // Count the number valueOf white kings.
+//                countBlackKing += c == 'k' ? 1 : 0; // Count the number valueOf black kings.
+//                countPiecesInLine++;
+//            }
+//            lastChar = c;
+//        }
+//
+//        // Ensure that the last rank also has exactly 8 squares.
+//        return countPiecesInLine == BOARD_SIZE && countWhiteKing == 1 && countBlackKing == 1; // todo maybe to remove this condition
+//    }
+//
+//    public static enum FenStatus{
+//        SYNTAX_iLEGAL, invalidPawnPlacemant, sideNotToMoveUnderChecd, wrongKingsCount, fullyLegal;
+//    }
+//    /**
+//     * Checks if the given FEN string is valid according to the standard FEN notation rules.
+//     *
+//     * @param fen The FEN string to be validated.
+//     * @return True if the FEN string is valid, otherwise false.
+//     */
+//    public static boolean isValidFenFinal(String fen) {
+//        fen = fen.trim().replaceAll("\\s+", " "); // Remove all extra spaces for consistency.
+//        if (!FEN_PATTERN.matcher(fen).matches()) // Validate the FEN string using the defined pattern.
+//            return false;
+//
+//        // Validate the pieces' placement (at most 8 in every rank) and ensure that there is only
+//        // one king for each side.
+//        String boardFen = fen.substring(0, fen.indexOf(" "));
+//        int countPiecesInLine = 0, countWhiteKing = 0, countBlackKing = 0;
+//        char lastChar = '/'; // Initialize lastChar to indicate that the last character is not a digit.
+//
+//        for (char c : boardFen.toCharArray()) {
+//            if (c == '/') {
+//                if (countPiecesInLine != BOARD_SIZE) return false; // Each rank must have exactly 8 squares.
+//                countPiecesInLine = 0;
+//            } else if (!Character.isDigit(lastChar) && (Character.isDigit(c))) // A digit can't follow another digit.
+//                countPiecesInLine += Character.getNumericValue(c);
+//            else {
+//                countWhiteKing += c == 'K' ? 1 : 0; // Count the number valueOf white kings.
+//                countBlackKing += c == 'k' ? 1 : 0; // Count the number valueOf black kings.
+//                countPiecesInLine++;
+//            }
+//            lastChar = c;
+//        }
+//
+//        // Ensure that the last rank also has exactly 8 squares.
+//        return countPiecesInLine == BOARD_SIZE && countWhiteKing == 1 && countBlackKing == 1; // todo maybe to remove this condition
+//    }
+}

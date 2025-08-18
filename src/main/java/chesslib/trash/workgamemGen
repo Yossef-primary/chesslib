@@ -1,0 +1,573 @@
+package chesslib.move;
+import chesslib.Bitboard;
+import chesslib.*;
+import chesslib.Position;
+import chesslib.PositionState;
+import chesslib.move.Move;
+import chesslib.types.*;
+
+import java.util.List;
+
+import static chesslib.Bitboard.*;
+import static chesslib.move.Move.*;
+import static chesslib.types.Castling.allCastling;
+import static chesslib.types.Direction.*;
+import static chesslib.types.Piece.BLACK_PAWN_VAL;
+import static chesslib.types.Piece.WHITE_PAWN_VAL;
+import static chesslib.types.PieceType.*;
+import static chesslib.types.Side.*;
+import static chesslib.types.Square.NO_SQUARE_VAL;
+
+public class MoveGenerator {
+    public static MoveList getAllLegalMoves(Position pos, Square from){
+        return null;
+    }
+
+
+    public static MoveList allLegalMoves(Position pos){
+        return null;
+    }
+
+    public static void allLegalMoves(Position pos, MoveList moveList){
+        return ;
+    }
+
+    public static void perft(Position pos, int depth){
+        long startTime = System.nanoTime();
+
+        if ( depth <= 0) return;
+        PositionState state = new PositionState();
+        MoveList moveList = new MoveList(pos);
+        long nodes = 0, count;
+        for (int move: moveList){
+            if (depth > 1){
+                pos.makeMove(move, state);
+                count = numMoves(pos, depth-1);
+                pos.undoMove(move);
+            }
+            else
+                count = 1;
+
+            nodes += count;
+            System.out.println(moveName(move)+": "+ count);
+
+        }
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+        double elapsedSeconds = (double) elapsedTime / 1_000_000_000.0; // Convert to seconds
+        System.out.println("Nodes count: " + nodes);
+        System.out.println("time: " + elapsedSeconds + "\n");
+    }
+
+
+    private static long numMoves(Position pos, int depth){
+        PositionState state = new PositionState();
+        long cont, nodes = 0;
+        MoveList moveList = new MoveList(pos);
+        if (depth == 1){
+            return moveList.size();
+        }
+        for (int move: moveList){
+            pos.makeMove(move, state);
+            cont = numMoves(pos, depth-1);
+            nodes += cont;
+            pos.undoMove(move);
+
+        }
+        return nodes;
+    }
+//
+//            const bool leaf = (depth == 2);
+//
+//        for (const Move& m : MoveList(pos))
+//    {
+//        if (Root && depth <= 1)
+//            cnt = 1, nodes++;
+//        else
+//        {
+////            MoveList temp;
+//            pos.make_move(m, state);
+//            cnt = leaf ? MoveList(pos).size() : perft<false>(pos, depth - 1);
+//            nodes += cnt;
+//            pos.unmake_move(m);
+//        }
+//        if constexpr (Root)
+//        cout << name(m) << ": " << cnt << endl;
+//    }
+//        if constexpr (Root)
+//    cout << "nodes searched: " << nodes << endl;
+//        return nodes;
+
+    public static void createAll(Position pos, MoveList moveList){
+        int start;
+        int side = pos.getSideToMove();
+        int enemySide = flipSide(side);
+        int kSq = pos.getState().kingSquare;
+        PositionState state = pos.getState();
+        long occupancy = pos.occupancy();
+        long enemy = pos.occupancyBySide(enemySide);
+        long empty = ~pos.occupancy();
+        long enemyOrEmpty = enemy | empty;
+
+//        if (pos.getFen().equals("rnbqkbnr/1p1ppppp/p7/1P6/2P5/3p4/PP1KPPPP/RNBQ1BNR w kq - 0 3"))
+//            System.out.println();
+        //king moves
+        long attacksKing = attacks(KING_VAL, state.kingSquare) & enemyOrEmpty;
+        for (; attacksKing != 0; attacksKing &= (attacksKing - 1)){
+            int dest = lsbToSquare(attacksKing);
+            if (pos.attackersBB(enemySide, dest, occupancy ^ squareToBB(kSq)) == 0)
+                moveList.add(createMove(kSq, dest));
+        }
+
+        if (has2OrMoreBits(pos.checker()) ) return;// in double check only king can move
+        //castling
+        int castlingOption = state.castlingRights;
+        int allCastling = allCastling(side) & state.castlingRights;
+        if (allCastling != 0) {
+            if ((allCastling & Castling.ALL_SHORT) != 0) {
+                int move = pos.getCastlingMove(allCastling & Castling.ALL_SHORT);
+                if (pos.isLegalCastlingMove(move))
+                    moveList.add(move);
+            }
+            if ((allCastling & Castling.ALL_LONG) != 0) {
+                int move = pos.getCastlingMove(allCastling & Castling.ALL_LONG);
+                if (pos.isLegalCastlingMove(move)) moveList.add(move);
+            }
+        }
+        long checker = pos.checker();
+        long pinMask = pos.pinMask();
+        long pinMaskDiagonals = pinMask & bishopAttacks(kSq);
+        long pinMaskRankFile = pinMask & rookAttacks(kSq);
+
+        long target = checker == 0 ? FULL_BB : pathBetween(kSq, lsbToSquare(checker));
+        if (side == WHITE_VAL)
+            generateWhitePawnMoves(target, pinMaskRankFile,pinMaskDiagonals, enemy, empty, pos, moveList);
+        else
+            generateBlackPawnMoves(target, pinMaskRankFile,pinMaskDiagonals, enemy, empty, pos, moveList);
+
+//        long pinOnRanks = pos.rf_pin_mask() & rank_bb(pos.king_square());
+//        long pinOnLeftD = pinMask & Bitboard.leftDiagonal(kSq);
+//        long pinOnRightD = pinMask & Bitboard.rightDiagonal(kSq); // todo do it depens on color?
+
+
+        //pawns
+
+
+        target &= enemyOrEmpty;
+        // knights
+        long knights = pos.occupancyBySideAndType(side, KNIGHT_VAL) & ~pinMask;
+        for (; knights != 0; knights &= (knights -1)) {
+            start = lsbToSquare(knights);
+            long attacks = knightAttacks(start) & target;
+            for (; attacks != 0; attacks &= (attacks - 1)) {
+                int dest = lsbToSquare(attacks);
+                moveList.add(createMove(start, dest));
+            }
+        }
+
+        //rooks and queen
+        long rookQueen = pos.occupancyBySideAndType(side, ROOK_VAL, QUEEN_VAL);
+        long rooksPin = rookQueen & pinMaskRankFile;
+        for (; rooksPin != 0; rooksPin &= (rooksPin -1)) {
+            start = lsbToSquare(rooksPin);
+
+            long attacks = rookAttacks(start, occupancy) & target & pinMaskRankFile;
+            for (; attacks != 0; attacks &= (attacks - 1)) {
+                int dest = lsbToSquare(attacks);
+                moveList.add(createMove(start, dest));
+            }
+        }
+
+        long rooksNotPin = rookQueen & ~pinMask;
+        for (; rooksNotPin != 0; rooksNotPin &= (rooksNotPin -1)) {
+            start = lsbToSquare(rooksNotPin);
+            long attacks = rookAttacks(start, occupancy) & target;
+            for (; attacks != 0; attacks &= (attacks - 1)){
+                int dest = lsbToSquare(attacks);
+                moveList.add(createMove(start, dest));
+            }
+        }
+
+        //bishop and queen
+        long bishopsQueen = pos.occupancyBySideAndType(side, BISHOP_VAL, QUEEN_VAL);
+        long bishopPin = bishopsQueen & pinMaskDiagonals;
+
+
+        for (; bishopPin != 0; bishopPin &= (bishopPin -1)) {
+            start = lsbToSquare(bishopPin);
+            long attacks = bishopAttacks(start, occupancy) & target & pinMaskDiagonals;
+            for (; attacks != 0; attacks &= (attacks - 1)) {
+                int dest = lsbToSquare(attacks);
+                moveList.add(createMove(start, dest));
+            }
+        }
+
+        long bishopsNotPin = bishopsQueen & ~pinMask;
+
+        for (; bishopsNotPin != 0; bishopsNotPin &= (bishopsNotPin -1)) {
+            start = lsbToSquare(bishopsNotPin);
+            long attacks = bishopAttacks(start, occupancy) & target;
+            for (; attacks != 0; attacks &= (attacks - 1)) {
+                int dest = lsbToSquare(attacks);
+                moveList.add(createMove(start, dest));
+            }
+        }
+    }//square under attack
+
+
+
+    // its need to be for both color for efficenty peprformance
+    // target is ememy or ompty and check mask
+    private static void generateWhitePawnMoves(long checkMask, long pinMaskRankFile, long pinMaskDiagonals,
+                                               long enemy, long empty, Position pos, MoveList moveList){
+
+        int enemySide = flipSide(pos.getSideToMove());
+        int kSq =pos.kingSquare();
+        long pawns = pos.occupancyByPiece(WHITE_PAWN_VAL);
+        long pinOnLeftD = pinMaskDiagonals & Bitboard.leftDiagonal(kSq);
+        long pinOnRightD = pinMaskDiagonals & Bitboard.rightDiagonal(kSq); // todo do it depens on color?
+
+        long lrPawns = pawns & ~pinMaskRankFile;
+        long pPawns = pawns & ~pinMaskDiagonals & ~(pinMaskRankFile & rankBB(Square.squareRank(kSq)));
+
+        long leftPawns = lrPawns  &~pinOnRightD & shiftDownRight(checkMask & enemy);
+        long rightPawns = lrPawns &~pinOnLeftD & shiftDownLeft(checkMask & enemy);
+
+        long pushP = pPawns & shiftDown(empty);
+        long push2P = pushP & RANK_2_BB & Bitboard.shiftDownTwice(empty & checkMask);
+        pushP &= shiftDown(checkMask);
+
+        long epPawns;
+        int move, start, dest;
+        if (pos.enPassant() != NO_SQUARE_VAL && (epPawns = lrPawns & pawnAttacks(enemySide, pos.enPassant())) != 0){
+            for (; epPawns != 0; epPawns &= (epPawns - 1)){
+//                start = lsbToSquare(epPawns);
+//                move = createMove(start, pos.enPassant(), EN_PASSANT);
+                if (pos.isLegalEnPassantMove(move = createMove(lsbToSquare(epPawns), pos.enPassant(), EN_PASSANT)))
+                    moveList.add(move);
+
+            }
+        }
+//        if (pos.enPassant() != NO_SQUARE_VAL && (lrPawns & pawnAttacks(enemySide, pos.enPassant())) != 0){
+//            long epPawns = lrPawns & pawn_attacks<~C>(pos.state.enPassant);
+////        long lEp = epPawns & ~pinOnRightD & shift<C, DOWN_RIGHT>(checkMask & empty);
+////        long rEp = epPawns & ~pinOnLeftD & shift<C, DOWN_LEFT>(checkMask & enemy);
+//            bit_loop(epPawns){
+//                Move m = create_move(lsb_square(epPawns), pos.state.enPassant, EN_PASSANT);
+//                if (pos.is_legal_move<EN_PASSANT>(m)) moveList.add(m);
+//            }
+//        }
+
+//        long secondRank = RANK_7_BB >> (5*side); // relative second rank
+
+        if (((leftPawns | rightPawns | pushP) & RANK_7_BB) != 0){
+            long lPromotePawns = leftPawns  & RANK_7_BB;
+            long rPromotePawns = rightPawns & RANK_7_BB;
+            long pPromotePawns = pushP  & RANK_7_BB;
+
+            leftPawns  ^= lPromotePawns;
+            rightPawns ^= rPromotePawns;
+            pushP  ^= pPromotePawns;
+
+            for (; lPromotePawns != 0; lPromotePawns &= (lPromotePawns - 1)){
+                start = lsbToSquare(lPromotePawns); dest = start+UP_LEFT;
+                moveList.add(createMove(start, dest, PROMOTION, KNIGHT_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, BISHOP_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, ROOK_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, QUEEN_VAL));
+            }
+//            bit_loop(lPromotePawns){
+//                start = lsb_square(lPromotePawns), dest = advance_left<C>(start);
+//                moveList.add(create_move(start, dest, PROMOTION, KNIGHT));
+//                moveList.add(create_move(start, dest, PROMOTION, BISHOP));
+//                moveList.add(create_move(start, dest, PROMOTION, ROOK));
+//                moveList.add(create_move(start, dest, PROMOTION, QUEEN));
+//            }
+
+            for (; rPromotePawns != 0; rPromotePawns &= (rPromotePawns - 1)){
+                start = lsbToSquare(rPromotePawns); dest = start+UP_RIGHT;
+                moveList.add(createMove(start, dest, PROMOTION, KNIGHT_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, BISHOP_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, ROOK_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, QUEEN_VAL));
+            }
+
+//            bit_loop(rPromotePawns){
+//                start = lsb_square(rPromotePawns), dest = advance_right<C>(start);
+//                moveList.add(create_move(start, dest, PROMOTION, KNIGHT));
+//                moveList.add(create_move(start, dest, PROMOTION, BISHOP));
+//                moveList.add(create_move(start, dest, PROMOTION, ROOK));
+//                moveList.add(create_move(start, dest, PROMOTION, QUEEN));
+//            }
+
+            for (; pPromotePawns != 0; pPromotePawns &= (pPromotePawns - 1)){
+                start = lsbToSquare(pPromotePawns); dest = start+UP;
+                moveList.add(createMove(start, dest, PROMOTION, KNIGHT_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, BISHOP_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, ROOK_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, QUEEN_VAL));
+            }
+
+//            bit_loop(pPromotePawns){
+//                start = lsb_square(pPromotePawns), dest = advance_up<C>(start);
+//                moveList.add(create_move(start, dest, PROMOTION, KNIGHT));
+//                moveList.add(create_move(start, dest, PROMOTION, BISHOP));
+//                moveList.add(create_move(start, dest, PROMOTION, ROOK));
+//                moveList.add(create_move(start, dest, PROMOTION, QUEEN));
+//            }
+        }
+
+//        bit_loop (leftPawns)  { start = lsb_square(leftPawns);   moveList.add(create_move(start, advance_left<C>(start))); }
+//        bit_loop (rightPawns) { start = lsb_square(rightPawns);  moveList.add(create_move(start, advance_right<C>(start)));}
+//        bit_loop (pushP)  { start = lsb_square(pushP);   moveList.add(create_move(start, advance_up<C>(start)));   }
+//        bit_loop (push2P) { start = lsb_square(push2P);  moveList.add(create_move(start, advance_twice<C>(start)));}
+        for (; leftPawns != 0; leftPawns &= (leftPawns - 1)){
+            start = lsbToSquare(leftPawns);
+            moveList.add(createMove(start, start + UP_LEFT));
+        }
+        for (;rightPawns != 0; rightPawns &= (rightPawns - 1)){
+            start = lsbToSquare(rightPawns);
+            moveList.add(createMove(start, start + UP_RIGHT));
+        }
+        for ( ;pushP != 0; pushP &= (pushP - 1)){
+            start = lsbToSquare(pushP);
+            moveList.add(createMove(start, start + UP));
+        }
+
+        for (;push2P != 0; push2P &= (push2P - 1)) {
+            start = lsbToSquare(push2P);
+            moveList.add(createMove(start, start + 2 * UP, PAWN_PUSH_TWICE));
+        }
+
+    }
+
+
+
+    // its need to be for both color for efficenty peprformance
+    // target is ememy or ompty and check mask
+    private static void generateBlackPawnMoves(long checkMask, long pinMaskRankFile, long pinMaskDiagonals,
+                                               long enemy, long empty, Position pos, MoveList moveList){
+
+        int enemySide = flipSide(pos.getSideToMove());
+        int kSq =pos.kingSquare();
+        long pawns = pos.occupancyByPiece(BLACK_PAWN_VAL);
+        long pinOnLeftD = pinMaskDiagonals & Bitboard.leftDiagonal(kSq);
+        long pinOnRightD = pinMaskDiagonals & Bitboard.rightDiagonal(kSq); // todo do it depens on color?
+
+        long lrPawns = pawns & ~pinMaskRankFile;
+        long pPawns = pawns & ~pinMaskDiagonals & ~(pinMaskRankFile & rankBB(Square.squareRank(kSq)));
+
+        long leftPawns = lrPawns  &~pinOnRightD & shiftUpLeft(checkMask & enemy);
+        long rightPawns = lrPawns &~pinOnLeftD & shiftUpRight(checkMask & enemy);
+
+        long pushP = pPawns & shiftUp(empty);
+        long push2P = pushP & RANK_7_BB & Bitboard.shiftUpTwice(empty & checkMask);
+        pushP &= shiftUp(checkMask);
+
+        long epPawns;
+        int move, start, dest;
+        if (pos.enPassant() != NO_SQUARE_VAL && (epPawns = lrPawns & pawnAttacks(enemySide, pos.enPassant())) != 0){
+            for (; epPawns != 0; epPawns &= (epPawns - 1)){
+//                start = lsbToSquare(epPawns);
+//                move = createMove(start, pos.enPassant(), EN_PASSANT);
+                if (pos.isLegalEnPassantMove(move = createMove(lsbToSquare(epPawns), pos.enPassant(), EN_PASSANT)))
+                    moveList.add(move);
+
+            }
+        }
+//        if (pos.enPassant() != NO_SQUARE_VAL && (lrPawns & pawnAttacks(enemySide, pos.enPassant())) != 0){
+//            long epPawns = lrPawns & pawn_attacks<~C>(pos.state.enPassant);
+////        long lEp = epPawns & ~pinOnRightD & shift<C, DOWN_RIGHT>(checkMask & empty);
+////        long rEp = epPawns & ~pinOnLeftD & shift<C, DOWN_LEFT>(checkMask & enemy);
+//            bit_loop(epPawns){
+//                Move m = create_move(lsb_square(epPawns), pos.state.enPassant, EN_PASSANT);
+//                if (pos.is_legal_move<EN_PASSANT>(m)) moveList.add(m);
+//            }
+//        }
+
+//        long secondRank = RANK_7_BB >> (5*side); // relative second rank
+
+        if (((leftPawns | rightPawns | pushP) & RANK_2_BB) != 0){
+            long lPromotePawns = leftPawns  & RANK_2_BB;
+            long rPromotePawns = rightPawns & RANK_2_BB;
+            long pPromotePawns = pushP  & RANK_2_BB;
+
+            leftPawns  ^= lPromotePawns;
+            rightPawns ^= rPromotePawns;
+            pushP  ^= pPromotePawns;
+
+            for (; lPromotePawns != 0; lPromotePawns &= (lPromotePawns - 1)){
+                start = lsbToSquare(lPromotePawns); dest = start+DOWN_RIGHT;
+                moveList.add(createMove(start, dest, PROMOTION, KNIGHT_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, BISHOP_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, ROOK_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, QUEEN_VAL));
+            }
+//            bit_loop(lPromotePawns){
+//                start = lsb_square(lPromotePawns), dest = advance_left<C>(start);
+//                moveList.add(create_move(start, dest, PROMOTION, KNIGHT));
+//                moveList.add(create_move(start, dest, PROMOTION, BISHOP));
+//                moveList.add(create_move(start, dest, PROMOTION, ROOK));
+//                moveList.add(create_move(start, dest, PROMOTION, QUEEN));
+//            }
+
+            for (; rPromotePawns != 0; rPromotePawns &= (rPromotePawns - 1)){
+                start = lsbToSquare(rPromotePawns); dest = start+DOWN_LEFT;
+                moveList.add(createMove(start, dest, PROMOTION, KNIGHT_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, BISHOP_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, ROOK_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, QUEEN_VAL));
+            }
+
+//            bit_loop(rPromotePawns){
+//                start = lsb_square(rPromotePawns), dest = advance_right<C>(start);
+//                moveList.add(create_move(start, dest, PROMOTION, KNIGHT));
+//                moveList.add(create_move(start, dest, PROMOTION, BISHOP));
+//                moveList.add(create_move(start, dest, PROMOTION, ROOK));
+//                moveList.add(create_move(start, dest, PROMOTION, QUEEN));
+//            }
+
+            for (; pPromotePawns != 0; pPromotePawns &= (pPromotePawns - 1)){
+                start = lsbToSquare(pPromotePawns); dest = start+DOWN;
+                moveList.add(createMove(start, dest, PROMOTION, KNIGHT_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, BISHOP_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, ROOK_VAL));
+                moveList.add(createMove(start, dest, PROMOTION, QUEEN_VAL));
+            }
+
+//            bit_loop(pPromotePawns){
+//                start = lsb_square(pPromotePawns), dest = advance_up<C>(start);
+//                moveList.add(create_move(start, dest, PROMOTION, KNIGHT));
+//                moveList.add(create_move(start, dest, PROMOTION, BISHOP));
+//                moveList.add(create_move(start, dest, PROMOTION, ROOK));
+//                moveList.add(create_move(start, dest, PROMOTION, QUEEN));
+//            }
+        }
+
+//        bit_loop (leftPawns)  { start = lsb_square(leftPawns);   moveList.add(create_move(start, advance_left<C>(start))); }
+//        bit_loop (rightPawns) { start = lsb_square(rightPawns);  moveList.add(create_move(start, advance_right<C>(start)));}
+//        bit_loop (pushP)  { start = lsb_square(pushP);   moveList.add(create_move(start, advance_up<C>(start)));   }
+//        bit_loop (push2P) { start = lsb_square(push2P);  moveList.add(create_move(start, advance_twice<C>(start)));}
+//        for (start = lsbToSquare(leftPawns); leftPawns != 0; leftPawns &= (leftPawns - 1))
+//            moveList.add(createMove(start, start + DOWN_RIGHT));
+//        for (start = lsbToSquare(rightPawns); rightPawns != 0; rightPawns &= (rightPawns - 1))
+//            moveList.add(createMove(start, start + DOWN_LEFT));
+//        for (start = lsbToSquare(pushP); pushP != 0; pushP &= (pushP - 1))
+//            moveList.add(createMove(start, start + DOWN));
+        for (; leftPawns != 0; leftPawns &= (leftPawns - 1)){
+            start = lsbToSquare(leftPawns);
+            moveList.add(createMove(start, start + DOWN_RIGHT));
+        }
+        for (;rightPawns != 0; rightPawns &= (rightPawns - 1)){
+            start = lsbToSquare(rightPawns);
+            moveList.add(createMove(start, start + DOWN_LEFT));
+        }
+        for ( ;pushP != 0; pushP &= (pushP - 1)){
+            start = lsbToSquare(pushP);
+            moveList.add(createMove(start, start + DOWN));
+        }
+        for (;push2P != 0; push2P &= (push2P - 1)) {
+            start = lsbToSquare(push2P); moveList.add(createMove(start, start + 2 * DOWN, PAWN_PUSH_TWICE));}
+
+    }
+}
+
+//    private void ff(Position pos, MoveList moveList){
+//        int side = pos.getSideToMove();
+//        long diagonalPin = 0;
+//        long fileRankPin = 0;
+//        long bishopsQueen = pos.occupancyBySideAndType(side, BISHOP_VAL, QUEEN_VAL);
+//        long rookQueens = pos.occupancyBySideAndType(side, ROOK_VAL, QUEEN_VAL);
+//        long bishopQPin = bishopsQueen & diagonalPin;
+//        long rookQueenPin = rookQueens & fileRankPin;
+//
+//
+//    }
+//
+//    private void bishop(long piecesBB, long target, long occupancy, MoveList moveList){
+//        long attacks;
+//
+//        for (int start = lsbToSquare(piecesBB); piecesBB != 0; piecesBB &= (piecesBB -1)) {
+//            attacks = target & bishopAttacks(start, occupancy);
+//            for (int dest = lsbToSquare(attacks); attacks != 0; attacks &= (attacks - 1))
+//                moveList.add(createMove(start, dest));
+//        }
+//
+//    }
+//
+//    private void rook(long piecesBB, long target, long occupancy, MoveList moveList){
+//        long attacks;
+//
+//        for (int start = lsbToSquare(piecesBB); piecesBB != 0; piecesBB &= (piecesBB -1)) {
+//            attacks = target & rookAttacks(start, occupancy);
+//            for (int dest = lsbToSquare(attacks); attacks != 0; attacks &= (attacks - 1))
+//                moveList.add(createMove(start, dest));
+//        }
+//    }
+//    private void generateBlackPawnMoves(){
+//
+//    }
+
+
+//        long pawns = pos.occupancyBySideAndType(side, PAWN_VAL);
+//        long lrPawns = pawns & ~pinMaskRankFile;
+//        long pPawns = pawns & pinMaskDiagonals & ~(pinMaskRankFile & rankBB(Square.squareRank(kSq)));
+//
+//        long leftPawns = lrPawns  &~pinOnRightD & shift<C, DOWN_RIGHT>(checkMask & enemy);
+//        long rightPawns = lrPawns &~pinOnLeftD & shift<C, DOWN_LEFT>(checkMask & enemy);
+//
+//        long pushPawns = pPawns & shift<C, DOWN>(empty);
+//        long push2Pawns = pushPawns & second_rank<C>() & shift<C, DOWN_TWICE>(empty & checkMask);
+//        pushPawns &= shift<C, DOWN>(checkMask);
+//
+//
+//        if (pos.state.enPassant != NO_SQUARE && lrPawns & pawn_attacks<~C>(pos.state.enPassant)){
+//            long epPawns = lrPawns & pawn_attacks<~C>(pos.state.enPassant);
+////        long lEp = epPawns & ~pinOnRightD & shift<C, DOWN_RIGHT>(checkMask & empty);
+////        long rEp = epPawns & ~pinOnLeftD & shift<C, DOWN_LEFT>(checkMask & enemy);
+//            bit_loop(epPawns){
+//                Move m = create_move(lsb_square(epPawns), pos.state.enPassant, EN_PASSANT);
+//                if (pos.is_legal_move<EN_PASSANT>(m)) moveList.add(m);
+//            }
+//        }
+//
+//        long secondRank = RANK_7_BB >> (5*side); // relative second rank
+//
+//        if ((leftPawns | rightPawns | pushPawns) & secondRank){
+//            long lPromotePawns = leftPawns  & rankToPromore<~C>();
+//            long rPromotePawns = rightPawns & second_rank<~C>();
+//            long pPromotePawns = pushPawns  & second_rank<~C>();
+//
+//            leftPawns  ^= lPromotePawns;
+//            rightPawns ^= rPromotePawns;
+//            pushPawns  ^= pPromotePawns;
+//
+//            bit_loop(lPromotePawns){
+//                start = lsb_square(lPromotePawns), dest = advance_left<C>(start);
+//                moveList.add(create_move(start, dest, PROMOTION, KNIGHT));
+//                moveList.add(create_move(start, dest, PROMOTION, BISHOP));
+//                moveList.add(create_move(start, dest, PROMOTION, ROOK));
+//                moveList.add(create_move(start, dest, PROMOTION, QUEEN));
+//            }
+//
+//            bit_loop(rPromotePawns){
+//                start = lsb_square(rPromotePawns), dest = advance_right<C>(start);
+//                moveList.add(create_move(start, dest, PROMOTION, KNIGHT));
+//                moveList.add(create_move(start, dest, PROMOTION, BISHOP));
+//                moveList.add(create_move(start, dest, PROMOTION, ROOK));
+//                moveList.add(create_move(start, dest, PROMOTION, QUEEN));
+//            }
+//
+//            bit_loop(pPromotePawns){
+//                start = lsb_square(pPromotePawns), dest = advance_up<C>(start);
+//                moveList.add(create_move(start, dest, PROMOTION, KNIGHT));
+//                moveList.add(create_move(start, dest, PROMOTION, BISHOP));
+//                moveList.add(create_move(start, dest, PROMOTION, ROOK));
+//                moveList.add(create_move(start, dest, PROMOTION, QUEEN));
+//            }
+//        }
+//
+//        bit_loop (leftPawns)  { start = lsb_square(leftPawns);   moveList.add(create_move(start, advance_left<C>(start))); }
+//        bit_loop (rightPawns) { start = lsb_square(rightPawns);  moveList.add(create_move(start, advance_right<C>(start)));}
+//        bit_loop (pushPawns)  { start = lsb_square(pushPawns);   moveList.add(create_move(start, advance_up<C>(start)));   }
+//        bit_loop (push2Pawns) { start = lsb_square(push2Pawns);  moveList.add(create_move(start, advance_twice<C>(start)));}
