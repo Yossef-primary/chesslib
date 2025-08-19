@@ -289,6 +289,7 @@ public class Position {
         System.out.println(posString());
     }
 
+
     public int pieceCount(int piece) {
         assert Piece.isValid(piece);
         return piecesCount[piece];
@@ -913,14 +914,17 @@ public class Position {
         return result;
     }
 
+    public String posString() {
+        return posString(true);
+    }
 
     /**
      * Get a string representation of the current position.
      * This method generates a visual representation of the chessboard along with important position information.
-     *
+     * @param printData if true printPosition the internal data like a key checkers etc
      * @return A string containing the board layout, FEN, checkers, pin mask, key, move history, and repetition count.
      */
-    public String posString() {
+    public String posString(boolean printData) {
         StringBuilder result = new StringBuilder();
 
         // Generate the chessboard layout
@@ -940,11 +944,14 @@ public class Position {
 
         // Append additional position information
         result.append("Fen:        ").append(getFen()).append("\n");
-        result.append("Checker:    ").append(toBinaryString(state.checkers)).append("\n");
-        result.append("Pin Mask:   ").append(toBinaryString(state.pinMask)).append("\n");
-        result.append("key:        ").append(state.key).append("\n");
+        if (printData) {
+            result.append("Checker:    ").append(toBinaryString(state.checkers)).append("\n");
+            result.append("Pin Mask:   ").append(toBinaryString(state.pinMask)).append("\n");
+            result.append("key:        ").append(state.key).append("\n");
+            result.append("repetition: ").append(state.numRepetition).append("\n");
+        }
+
         result.append("moves play: ").append(moveHistory().stream().map(Move::getName).toList()).append("\n");
-        result.append("repetition: ").append(state.numRepetition).append("\n");
         result.append("\n");
 
         return result.toString();

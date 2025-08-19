@@ -4,11 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="init commit" />
+    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="readme edit">
+      <change afterPath="$PROJECT_DIR$/src/main/java/chesslib/test/Example.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/Bitboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/Bitboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/Position.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/trash/GameManagerOldVersion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/trash/GameManagerOldVersion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/trash/posnew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/trash/posnew.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -41,7 +57,20 @@
       <recent name="$PROJECT_DIR$/src/main/java/chesslib/test" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Example">
+    <configuration name="Example" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="chesslib.test.Example" />
+      <module name="chesslib" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="chesslib.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PerftTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="chesslib.test.PerftTest" />
       <module name="chesslib" />
@@ -57,6 +86,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Example" />
         <item itemvalue="Application.PerftTest" />
       </list>
     </recent_temporary>
@@ -70,7 +100,7 @@
       <option name="presentableId" value="Default" />
       <updated>1755531513802</updated>
       <workItem from="1755531514973" duration="11137000" />
-      <workItem from="1755606564082" duration="300000" />
+      <workItem from="1755606564082" duration="3719000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1755531717791</created>
@@ -121,7 +151,21 @@
       <option name="project" value="LOCAL" />
       <updated>1755606768131</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="init commit">
+      <created>1755606968065</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1755606968065</updated>
+    </task>
+    <task id="LOCAL-00009" summary="readme edit">
+      <created>1755607191080</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1755607191080</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,7 +184,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="init commit" />
+    <MESSAGE value="readme edit" />
+    <option name="LAST_COMMIT_MESSAGE" value="readme edit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -149,6 +194,11 @@
           <properties class="java.io.IOException" package="java.io" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/chesslib/Position.java</url>
+          <line>941</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

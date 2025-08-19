@@ -336,7 +336,7 @@ public class GameManager {
      *
      * @return a FEN string representing a Chess960 starting position
      */
-    private static String createChess960Fen() {
+    public static String createChess960Fen() {
         Random r = new Random();
         char[] fenPieces = new char[8];
         char empty = '\0';
@@ -475,8 +475,8 @@ public class GameManager {
     /**
      * Prints the current board state to the console.
      */
-    public void print() {
-        position.printBoard();
+    public void printPosition() {
+        System.out.println(position.posString(false));
     }
 
 

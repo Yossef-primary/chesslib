@@ -551,7 +551,7 @@ public class Bitboard {
     // Printing / debugging helpers
     // ================================
 
-    // =========     print        =========
+    // =========     printPosition        =========
 
     /** Prints a 64-bit binary string (no board layout). */
     public static void printBits(long bb) {

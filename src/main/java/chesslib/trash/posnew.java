@@ -132,12 +132,12 @@
 //        System.out.println(posString());
 ////        for (int i = 8 - 1; i >= 0; --i) {
 ////            System.out.println("  +---+---+---+---+---+---+---+---+");
-////            System.out.print(i + 1 + " ");
+////            System.out.printPosition(i + 1 + " ");
 ////
 ////            for (int j = 0; j < 8; ++j) {
 ////                int piece = getPiece((i * 8) + j);
 ////                char to_print = piece!= NULL_PIECE ? Piece.getName(piece) : ' ';//todo to check
-////                System.out.print( "| " + to_print + " ");
+////                System.out.printPosition( "| " + to_print + " ");
 ////            }
 ////            System.out.println("|");
 ////        }
@@ -393,7 +393,7 @@
 //        updateRepetition();
 ////        for (int i = 0; i < 50; i++) {
 ////            if(state.numRepetition == 18+i)
-////                System.out.println("print");
+////                System.out.println("printPosition");
 ////        }
 //
 //        state.lastMove = move;

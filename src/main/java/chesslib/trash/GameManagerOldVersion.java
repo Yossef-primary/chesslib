@@ -264,7 +264,7 @@
 //        return gameStatus;
 //    }
 //
-//    public void print() { position.printBoard(); }
+//    public void printPosition() { position.printBoard(); }
 //
 //    /**
 //     * update the current status valueOf the game.
