@@ -34,33 +34,6 @@ public class FenValidation {
      * @param fen the FEN string to validate
      * @return true if the FEN passes the validation, false otherwise
      */
-//    public static boolean isValidFenSyntaxAndKingCount(String fen) {
-//        return isValidFen(fen, false);
-//    }
-//
-//    /**
-//     * Checks whether a FEN string has valid syntax and correct king count.
-//     * This includes:
-//     *  - Valid FEN format (piece placement, castling, en passant, half-move and full-move numbers)
-//     *  - Each rank contains exactly 8 squares (pieces + empty squares)
-//     *
-//     * @param fen the FEN string to validate
-//     * @return true if the FEN passes the validation, false otherwise
-//     */
-//    public static boolean isValidFenSyntax(String fen) {
-//        return isValidFen(fen, true);
-//    }
-
-    /**
-     * Checks whether a FEN string has valid syntax and correct king count.
-     * This includes:
-     *  - Valid FEN format (piece placement, castling, en passant, half-move and full-move numbers)
-     *  - Each rank contains exactly 8 squares (pieces + empty squares)
-     *  - Exactly one white king and one black king
-     *
-     * @param fen the FEN string to validate
-     * @return true if the FEN passes the validation, false otherwise
-     */
     public static boolean isValidFenSyntax(String fen) {
         fen = fen.trim().replaceAll("\\s+", " "); // Remove all extra spaces for consistency.
         if (!FEN_PATTERN.matcher(fen).matches()) // Validate the FEN string using the defined pattern.
