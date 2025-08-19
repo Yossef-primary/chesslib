@@ -7,3 +7,6 @@ A lightweight Java library for chess move generation, FEN parsing, and position 
 - Bitboard-based engine foundation
 
 ## Installation
+
+## Usage
+
