@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="init commit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/chesslib/trash/note to save from Position class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/Position.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/exeptions/ChessException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/exceptions/ChessException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/exeptions/IllegalMoveExceptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/exceptions/IllegalMoveExceptions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/exeptions/IllegalPositionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/exceptions/IllegalPositionException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bin/chess_new" beforeDir="false" />
-    </list>
+    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="init commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -78,7 +69,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1755531513802</updated>
-      <workItem from="1755531514973" duration="10521000" />
+      <workItem from="1755531514973" duration="11137000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1755531717791</created>
@@ -115,7 +106,14 @@
       <option name="project" value="LOCAL" />
       <updated>1755540574010</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="init commit">
+      <created>1755543347460</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1755543347460</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

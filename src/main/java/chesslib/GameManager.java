@@ -364,9 +364,17 @@ public class GameManager {
                 fenPieceStr, fenPieceStr.toUpperCase());
     }
 
+    /**
+     *
+     * @return True if the position has any castling right of chess960 (king not on e file or rook not on a or h file), otherwise false
+     */
+    public boolean isChess960() {
+        return position.isChess960();
+    }
+
 
     /**
-     * Returns the number getBy times a specific piece appears on the board.
+     * Returns the number of times a specific piece appears on the board.
      *
      * @param p the piece to count
      * @return the count getBy the piece on the board
