@@ -27,18 +27,18 @@
 //        }
 //
 //        /**
-//         * Retrieves the type valueOf the piece.
+//         * Retrieves the type of the piece.
 //         *
-//         * @return The type valueOf the piece.
+//         * @return The type of the piece.
 //         */
 //        public PieceType type() {
 //            return PieceType.getBy(type(pieceValue));
 //        }
 //
 //        /**
-//         * Retrieves the side valueOf the piece.
+//         * Retrieves the side of the piece.
 //         *
-//         * @return The side valueOf the piece.
+//         * @return The side of the piece.
 //         */
 //        public chesslib.types.Side side() {
 //            return chesslib.types.Side.getBy(side(pieceValue));
@@ -55,9 +55,9 @@
 //        }
 //
 //        /**
-//         * Retrieves the getName valueOf the piece.
+//         * Retrieves the getName of the piece.
 //         *
-//         * @return The getName valueOf the piece.
+//         * @return The getName of the piece.
 //         */
 //        public char getName() {
 //            return getName(pieceValue);

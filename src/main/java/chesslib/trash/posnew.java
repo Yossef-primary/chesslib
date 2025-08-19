@@ -53,7 +53,7 @@
 //    // and rook square) this path need to be empty on the board when we make this castling move.
 //    private long[] castlingPath;
 //    // all the squares the king goes through while doing the castling. exclude king sq. this path cant be
-//    // under attack valueOf enemy pieces.
+//    // under attack of enemy pieces.
 //    private long[] castlingKingPath;
 //
 //    // keys tables
@@ -184,7 +184,7 @@
 //            else if (Character.isDigit(c))
 //                square += Character.getNumericValue(c);
 //            else // add piece and advance square
-//                addPiece(valueOf(c), square++);
+//                addPiece(of(c), square++);
 //        }
 //
 //        int[] kingsSquares = {squareOf(WHITE_KING), squareOf(BLACK_KING)};
@@ -204,17 +204,17 @@
 //            // find the rookSq square, that made the castle.
 //            if (c == 'k') {
 //                rookSq = Square.flipped(side, H1_VAL);
-//                while (getPiece(rookSq) != valueOf(side, ROOK) && rookSq > flipped(side, A1_VAL))
+//                while (getPiece(rookSq) != of(side, ROOK) && rookSq > flipped(side, A1_VAL))
 //                    rookSq--;
 //
 //            }
 //            else if (c == 'q'){
 //                rookSq = Square.flipped(side, A1_VAL);
-//                while (getPiece(rookSq) != valueOf(side, ROOK) && rookSq < flipped(side,H1_VAL)) rookSq++;
+//                while (getPiece(rookSq) != of(side, ROOK) && rookSq < flipped(side,H1_VAL)) rookSq++;
 //            }
 //
 //            else if (c >= 'a' && c <= 'h')
-//                rookSq = valueOf(valueOf(c), flippedIfBlack(side, Rank.RANK_1_VAL));
+//                rookSq = of(of(c), flippedIfBlack(side, Rank.RANK_1_VAL));
 //            else break; // c = "-"
 //
 //            int castleRight = rookSq > kingSq ? shortCastle(side) : longCastle(side);
@@ -231,21 +231,21 @@
 //        }
 //
 //        // 4. set epPassant sq.
-//        int enSq = valueOf(epFen);
+//        int enSq = of(epFen);
 //        int sideMoved = flipped(sideToMove);
 //        int pawnMovedDir = forward(sideMoved);
-//        // if on valueOf this condition exist en passant move cant be done.
+//        // if on of this condition exist en passant move cant be done.
 //        if (enSq == NO_SQUARE_VAL                                                                     ||
 //                // check if exist pawn after the ep square.
 //                (occupancyBySideAndType(sideMoved, PAWN) & squareToBB(enSq + pawnMovedDir)) == 0  ||
 //                // check it the squares that pawn moved goes through them are empty.
 //                ((squareToBB(enSq - pawnMovedDir) | squareToBB(enSq)) & occupancyBB) != 0             ||
-//                // check if exist pawn valueOf side to move that can go to ep square.
+//                // check if exist pawn of side to move that can go to ep square.
 //                (occupancyBySideAndType(sideToMove, PAWN) & pawnAttacks(sideMoved, enSq)) == 0)
 //            enSq = NO_SQUARE_VAL;
 //
 //        // 5. set state
-//        sideToMove               = valueOf(colorFen.charAt(0));
+//        sideToMove               = of(colorFen.charAt(0));
 //        numMoves                 = 2 * Math.min(0, Integer.parseInt(fullMoveCountFen) - 1) + sideToMove; // num moves start from 0
 //        state.enPassant          = enSq;
 //        state.rule50             = Integer.parseInt(rule50Fen);
@@ -340,7 +340,7 @@
 //            newState.key ^= (castlingKeys[state.castlingRights] ^ castlingKeys[newState.castlingRights]);
 //        }
 //
-//        // update the state it's must be called before the board update, because the removeNode-add-move piece method change the key valueOf the state.
+//        // update the state it's must be called before the board update, because the removeNode-add-move piece method change the key of the state.
 //        newState.previous = state;
 //        state = newState;
 //        sideToMove = flipped(sideToMove);
@@ -360,27 +360,27 @@
 //            movePiece(start, dest);
 //            state.rule50 = 0;
 //        }
-//        // castling move encoded dest to sq valueOf rook
+//        // castling move encoded dest to sq of rook
 //        else if (moveType == Move.CASTLING) {
 //            movePiece(start, castlingDestSquareKing[dest]);
 //            movePiece(dest, castlingDestSquareRook[dest]);
 //        } else if (moveType == Move.EN_PASSANT) {
 //            removePiece(dest - forward(sideMoved));
 //            movePiece(start, dest);
-////            state.capturedPiece = valueOf(sideToMove, PAWN);
+////            state.capturedPiece = of(sideToMove, PAWN);
 //        } else if (moveType == Move.PAWN_PUSH_TWICE) {
 //            movePiece(start, dest);
 //            int epSquare = start + forward(sideMoved);
 //            state.enPassant = (occupancyByType(sideToMove, PAWN) &
 //                    pawnAttacks(sideMoved, epSquare)) == 0 ? NO_SQUARE_VAL : epSquare;
-//            state.key ^= enPassantKeys[state.enPassant]; // in case valueOf epSquare == NO_SQUARE_VAL its do nothing.
+//            state.key ^= enPassantKeys[state.enPassant]; // in case of epSquare == NO_SQUARE_VAL its do nothing.
 //        } else if (moveType == Move.PROMOTION) {
-//            addPiece(valueOf(sideMoved, promotePT(move)), dest);
+//            addPiece(of(sideMoved, promotePT(move)), dest);
 //            removePiece(start);
 //        }
 //
 //        // 3: update king data info
-//        int kingSq = squareOf(sideToMove, KING); // todo only update the ksq valueOf side who make the move
+//        int kingSq = squareOf(sideToMove, KING); // todo only update the ksq of side who make the move
 //        state.kingSquare = kingSq;
 //        state.checkers = attackersBB(sideMoved, kingSq, occupancyBB);
 //        state.pinMask = pinMask(flipped(sideToMove), kingSq);
@@ -430,7 +430,7 @@
 //            movePiece(dest, start);
 //        }
 //        else if (moveType == Move.PROMOTION){
-//            addPiece(valueOf(flipped(sideToMove), PAWN), start);
+//            addPiece(of(flipped(sideToMove), PAWN), start);
 //            removePiece(dest);
 //        }
 //        if (state.capturedPiece != NULL_PIECE) addPiece(state.capturedPiece, dest);
@@ -464,7 +464,7 @@
 //    }
 //
 //    public int squareOf(int side, int type){
-//        return lsbToSquare(occupancyByPieceBB[valueOf(side, type)]);
+//        return lsbToSquare(occupancyByPieceBB[of(side, type)]);
 //    }
 //
 //    public int squareOf(int piece){
@@ -495,7 +495,7 @@
 //    private void assertPositionIsLegal(){
 //        // only one king for each side.
 //        assert hasOneBit(occupancyByPiece(WHITE_KING)) && hasOneBit(occupancyByPiece(BLACK_KING)) :
-//                "invalid nam valueOf kings";
+//                "invalid nam of kings";
 //
 //        //opponent side to move not in check
 //        assert attackersBB(sideToMove, squareOf(flipped(sideToMove), KING), occupancy()) == 0 :
@@ -529,8 +529,8 @@
 //                }
 //                else { // all bits need to be empty
 //                    assert (squareToBB(square) & (
-//                            occupancyByPiece(valueOf(WHITE_VAL, type)) |
-//                                    occupancyByPiece(valueOf(BLACK_VAL, type)) |
+//                            occupancyByPiece(of(WHITE_VAL, type)) |
+//                                    occupancyByPiece(of(BLACK_VAL, type)) |
 //                                    occupancyByType(type))) == 0:
 //                            String.format("3 on square %s, piece is %c bitboards not synchronized.\n"+posString(),
 //                                    getName(square), getName(piece));;
@@ -546,8 +546,8 @@
 //                int kSq = startSquare(castlingMoves[castleRight]);
 //                int rSq = destSquare(castlingMoves[castleRight]);
 //
-//                if (getPiece(kSq) != valueOf(side, KING) ||
-//                        getPiece(rSq) != valueOf(side, ROOK) ||
+//                if (getPiece(kSq) != of(side, KING) ||
+//                        getPiece(rSq) != of(side, ROOK) ||
 //                        flippedIfBlack(side, RANK_1_VAL) != rank(kSq) || //king in the correct rank
 //                        (isShort && kSq > rSq || !isShort && kSq < rSq))
 //                    assert  false: "castling rights invalid\n"+posString();
@@ -556,7 +556,7 @@
 ////                boolean isShort = (isShortCastle(castleRight));
 ////                int kSq = startSquare(castlingMoves[castleRight]);
 ////                int rSq = destSquare(castlingMoves[castleRight]);
-////                assert getPiece(rSq) == valueOf(side, ROOK) &&
+////                assert getPiece(rSq) == of(side, ROOK) &&
 ////                       flippedIfBlack(side, RANK_1_VAL) == rank(kSq) && //king in the correct rank
 ////                       (isShort && kSq < rSq || !isShort && kSq > rSq) :
 ////                       "castling rights invalid";
@@ -601,8 +601,8 @@
 //                }
 //                else { // all bits need to be empty
 //                    if ((squareToBB(square) & (
-//                            occupancyByPiece(valueOf(WHITE_VAL, type)) |
-//                                    occupancyByPiece(valueOf(BLACK_VAL, type)) |
+//                            occupancyByPiece(of(WHITE_VAL, type)) |
+//                                    occupancyByPiece(of(BLACK_VAL, type)) |
 //                                    occupancyByType(type))) != 0)
 //                        return false;
 //
@@ -617,8 +617,8 @@
 //                int kSq = startSquare(castlingMoves[castleRight]);
 //                int rSq = destSquare(castlingMoves[castleRight]);
 //
-//                if (getPiece(kSq) != valueOf(side, KING) ||
-//                        getPiece(rSq) != valueOf(side, ROOK) ||
+//                if (getPiece(kSq) != of(side, KING) ||
+//                        getPiece(rSq) != of(side, ROOK) ||
 //                        flippedIfBlack(side, RANK_1_VAL) != rank(kSq) || //king in the correct rank
 //                        (isShort && kSq > rSq || !isShort && kSq < rSq))
 //                    return false;
@@ -633,14 +633,14 @@
 //    /**
 //     * Checks if a chess move is pseudo-legal based on the following conditions:
 //     * <ol>
-//     *   <li>Verify if the side to move corresponds to the side valueOf the moving piece.</li>
+//     *   <li>Verify if the side to move corresponds to the side of the moving piece.</li>
 //     *   <li>Ensure that the piece can move according to the occupancy on the board.</li>
 //     *   <li>Check if the move corresponds to the allowed directions for the piece.</li>
 //     *   <li>Verify if the move type is valid for the given piece.</li>
 //     *   <li>Check if the move cancels a check on the position (not checking if the moved piece is on pin).</li>
 //     * </ol>
 //     *
-//     * @param move The encoded representation valueOf the move to be checked.
+//     * @param move The encoded representation of the move to be checked.
 //     * @return {@code true} if the move is pseudo-legal, {@code false} otherwise.
 //     */
 //    public boolean isPseudoLegalMove(int move) {
@@ -698,7 +698,7 @@
 //     * Checks if a chess move is legal, considering the move's pseudo-legality and additional conditions.
 //     * Assumes the move is pseudo-legal.
 //     *
-//     * @param move The encoded representation valueOf the move.
+//     * @param move The encoded representation of the move.
 //     * @return True if the move is legal, false otherwise.
 //     */
 //    public boolean isLegalMove(int move) {
@@ -710,7 +710,7 @@
 //        int enemySide = flipped(sideToMove);
 //
 //        if (moveType == NORMAL || moveType == PAWN_PUSH_TWICE || moveType == PROMOTION || moveType == NORMAL_PAWN_MOVE) {
-//            // In case valueOf the king move, check if the destination square is safe.
+//            // In case of the king move, check if the destination square is safe.
 //            return (moveType(pieceMoved) == KING) ?
 //                    attackersBB(enemySide, dest, occupancyBB ^ squareToBB(ksq)) == 0 :
 //                    ((squareToBB(start) & state.pinMask) == 0) || onSameLine(start, dest, ksq);
@@ -740,7 +740,7 @@
 //        for (;kingPath != 0; kingPath = popLsb(kingPath))
 //            if (attackersBB(enemySide, lsbToSquare(kingPath), occupancyBB) != 0) return false;
 //
-//        // to include the case valueOf chess 960 that calling rook pin to the king,
+//        // to include the case of chess 960 that calling rook pin to the king,
 //        // for example queen on a1 rook on b1 and king on c1
 //        return (squareToBB(castlingDestSquareRook[dest]) & state.pinMask) == 0;
 //    }
@@ -811,7 +811,7 @@
 //     * Assumes there is a piece on the start square and the destination square is empty.
 //     * If start == dest, it has no effect.
 //     *
-//     * @param start The starting square valueOf the piece.
+//     * @param start The starting square of the piece.
 //     * @param dest  The destination square for the piece.
 //     */
 //    private void movePiece(int start, int dest){
@@ -835,7 +835,7 @@
 //    /**
 //     * Checks if the current board state represents insufficient material for a checkmate.
 //     * Conditions checked:
-//     * 1. Cover the case valueOf:
+//     * 1. Cover the case of:
 //     *    - King vs King
 //     *    - King vs King + Knight or Bishop
 //     *    - King vs King + 2 Bishops with the same color.
@@ -856,7 +856,7 @@
 //    }
 //
 //    public long pinMask(int attackSide, int targetSquare){
-//        // all attackers around (on file, rank and tow diagonal valueOf targetSquare square) the square targetSquare
+//        // all attackers around (on file, rank and tow diagonal of targetSquare square) the square targetSquare
 //        long attackers =
 //                (occupancyBySideAndType(attackSide, BISHOP, QUEEN) & bishopAttacks(targetSquare)) |
 //                        (occupancyBySideAndType(attackSide, ROOK, QUEEN)   & rookAttacks(targetSquare));

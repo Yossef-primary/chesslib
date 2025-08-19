@@ -23,14 +23,14 @@ import static chesslib.types.Square.Value.NULL_SQUARE;
  * It employs various techniques and algorithms to efficiently compute moves, including bitboard representations
  * for board states, move generation for different piece types, and special considerations for castling, pawn promotions,
  * and en passant captures. The class also contains a performance evaluation tool (perft) for debugging and testing
- * purposes, which calculates the number valueOf possible positions at a specified depth.
+ * purposes, which calculates the number of possible positions at a specified depth.
  * <p>
  * This class follows a modular approach, encapsulating related functionalities within separate methods for clarity
  * and maintainability. It leverages efficient bit manipulation operations and precomputed attack patterns to optimize
  * move generation. The code is designed to be extensible and adaptable for future improvements or additions to the
  * chess engine.
  * <p>
- * Note: The class assumes the usage valueOf a Position class to represent the current state valueOf the chessboard.
+ * Note: The class assumes the usage of a Position class to represent the current state of the chessboard.
  * It relies on the Bitboard, Move, and other types from the chesslib.types package.
 
  */
@@ -52,7 +52,7 @@ public class MoveGenerator {
 
     /**
      * Special MoveListInterface that throws on the first added move.
-     * Used to detect existence getBy at least one legal move.
+     * Used to detect existence of at least one legal move.
      */
     private static class ShortCircuitList implements MoveListInterface {
         @Override
@@ -143,7 +143,7 @@ public class MoveGenerator {
         // Pawn moves
         createPawnsMove(pos, moveList, side, enemySide, kSq, enemy, empty, pinMaskDiagonals, pinMaskRankFile, checkMask);
 
-        // Rest getBy the pieces
+        // Rest of the pieces
         checkMask &= enemyOrEmpty;
 
         // Knights
@@ -181,7 +181,7 @@ public class MoveGenerator {
      * @param moveList       The list to store the generated moves.
      * @param side           The side for which pawn moves are generated.
      * @param enemySide      The opponent side.
-     * @param kSq            The square valueOf the king.
+     * @param kSq            The square of the king.
      * @param enemy          Bitboard representing positions occupied by the opponent's pieces.
      * @param empty          Bitboard representing empty squares on the board.
      * @param pinMaskDiagonals Bitboard representing squares where pinned pieces can move diagonally.
@@ -198,7 +198,7 @@ public class MoveGenerator {
         long lrPawns = pawns & ~pinMaskRankFile;
         long pPawns = pawns & ~pinMaskDiagonals & ~(pinMaskRankFile & rankBB(Square.rank(kSq)));
 
-        // Variables to store different types valueOf pawn moves
+        // Variables to store different types of pawn moves
         long leftPawns, rightPawns, pushP, push2P, rankToPromote;
         int up, upRight, upLeft; // side - relative  directions.
 
@@ -283,7 +283,7 @@ public class MoveGenerator {
      * @param moveList    The list to store the generated moves.
      * @param attacksFunc The function providing the attack bitboard for a given square.
      * @param target      The target squares for the moves.
-     * @param pieces      The bitboard representing the positions valueOf the pieces.
+     * @param pieces      The bitboard representing the positions of the pieces.
      */
     private static void createSliderMoves(@NotNull MoveListInterface moveList, Function<Integer,
             Long> attacksFunc, long target, long pieces) {
@@ -310,8 +310,8 @@ public class MoveGenerator {
      * Creates promotion moves for pawn promotion.
      *
      * @param moveList     The list to store the generated moves.
-     * @param direction    The direction valueOf promotion.
-     * @param promotePawns The bitboard representing the positions valueOf pawns eligible for promotion.
+     * @param direction    The direction of promotion.
+     * @param promotePawns The bitboard representing the positions of pawns eligible for promotion.
      */
     private static void createPromoteMoves(@NotNull MoveListInterface moveList, int direction, long promotePawns) {
         int start, dest;
@@ -337,7 +337,7 @@ public class MoveGenerator {
      * Generates and prints the perft (performance test) results for the given position and depth.
      *
      * @param pos   The current chess position.
-     * @param depth The depth valueOf the perft search.
+     * @param depth The depth of the perft search.
      */
     public static void perft(Position pos, int depth) {
         // Record the start time to measure the execution time
@@ -350,7 +350,7 @@ public class MoveGenerator {
         // Create a MoveList containing all legal moves for the current position
         MoveList moveList = new MoveList(pos);
 
-        // Initialize counters for nodes and the count valueOf moves at each depth
+        // Initialize counters for nodes and the count of moves at each depth
         long nodes = 0, count;
         int step = 0;
         // Iterate through all moves in the MoveList
@@ -365,14 +365,14 @@ public class MoveGenerator {
                 count = numMoves(pos, depth - 1);  // Recursive call for the next depth
                 pos.undoMove();           // Undo the move to explore other moves
             } else {
-                // If depth is 1, simply count the number valueOf legal moves at this depth
+                // If depth is 1, simply count the number of legal moves at this depth
                 count = 1;
             }
 
-            // Accumulate the count valueOf moves
+            // Accumulate the count of moves
             nodes += count;
 
-            // Print the move and the count valueOf moves at the current depth
+            // Print the move and the count of moves at the current depth
             System.out.println(Move.getName(move) + ": " + count);
         }
 
@@ -387,25 +387,25 @@ public class MoveGenerator {
     }
 
     /**
-     * Helper method for counting the number valueOf moves at a given depth.
+     * Helper method for counting the number of moves at a given depth.
      *
      * @param pos   The current chess position.
-     * @param depth The depth valueOf the search.
-     * @return The number valueOf moves at the given depth.
+     * @param depth The depth of the search.
+     * @return The number of moves at the given depth.
      */
     public static long numMoves2(Position pos, int depth) {
         if (depth <= 0) return 0;
 
-        // Initialize a new PositionState to keep track valueOf the position state during the search
+        // Initialize a new PositionState to keep track of the position state during the search
         PositionState state = new PositionState();
 
-        // Initialize counters for the total number valueOf moves and the count at each depth
+        // Initialize counters for the total number of moves and the count at each depth
         long nodes = 0;
 
         // Create a MoveList containing all legal moves for the current position
         MoveList moveList = new MoveList(pos);
 
-        // Base case: If depth is 1, return the total number valueOf legal moves at this depth
+        // Base case: If depth is 1, return the total number of legal moves at this depth
         if (depth == 1) {
             return moveList.size();
         }
@@ -425,7 +425,7 @@ public class MoveGenerator {
 //            }
 
             nodes += numMoves2(pos, depth - 1);  // Recursive call for the next depth
-//            nodes += cont;               // Accumulate the count valueOf moves
+//            nodes += cont;               // Accumulate the count of moves
             pos.undoMove();           // Undo the move to explore other moves
         }
 

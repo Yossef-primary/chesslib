@@ -27,7 +27,7 @@ public enum Side {
     }
 
     /**
-     * Total number valueOf sides (WHITE and BLACK).
+     * Total number of sides (WHITE and BLACK).
      */
     public static final int VALUES_COUNT = 2;
 
@@ -63,7 +63,7 @@ public enum Side {
 
 
     /**
-     * Gets the character representation valueOf the given side valueBy ('w' for WHITE, 'b' for BLACK).
+     * Gets the character representation of the given side valueBy ('w' for WHITE, 'b' for BLACK).
      */
     public static char getName(int side) {
         return side == Value.WHITE ? 'w' : 'b';

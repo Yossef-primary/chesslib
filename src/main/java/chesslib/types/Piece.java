@@ -29,18 +29,18 @@ public enum Piece {
     }
 
     /**
-     * Retrieves the type valueOf the piece.
+     * Retrieves the type of the piece.
      *
-     * @return The type valueOf the piece.
+     * @return The type of the piece.
      */
     public PieceType type() {
         return PieceType.getBy(type(pieceVal));
     }
 
     /**
-     * Retrieves the side valueOf the piece.
+     * Retrieves the side of the piece.
      *
-     * @return The side valueOf the piece.
+     * @return The side of the piece.
      */
     public Side side() {
         return Side.getBy(side(pieceVal));
@@ -52,9 +52,9 @@ public enum Piece {
     }
 
     /**
-     * Retrieves the getName valueOf the piece.
+     * Retrieves the getName of the piece.
      *
-     * @return The getName valueOf the piece.
+     * @return The getName of the piece.
      */
     public char getName() {
         return getName(pieceVal);
@@ -96,7 +96,7 @@ public enum Piece {
                     null, null, BLACK_PAWN, BLACK_KNIGHT, BLACK_BISHOP, BLACK_ROOK, BLACK_QUEEN, BLACK_KING
             };
 
-    // Flat list valueOf all valid piece values for iteration or indexing.
+    // Flat list of all valid piece values for iteration or indexing.
     private static final int[] ALL_PIECE_VALUES = {
             Value.WHITE_PAWN, Value.WHITE_KNIGHT, Value.WHITE_BISHOP, Value.WHITE_ROOK, Value.WHITE_QUEEN, Value.WHITE_KING,
             Value.BLACK_PAWN, Value.BLACK_KNIGHT, Value.BLACK_BISHOP, Value.BLACK_ROOK, Value.BLACK_QUEEN, Value.BLACK_KING
@@ -112,7 +112,7 @@ public enum Piece {
      * Creates a {@code Piece} based on the given piece valueBy.
      *
      * @param pieceVal The piece valueBy.
-     * @return The {@code Piece} enum constant corresponding to the piece valueBy, or {@code NO_PIECE} if out valueOf bounds.
+     * @return The {@code Piece} enum constant corresponding to the piece valueBy, or {@code NO_PIECE} if out of bounds.
      */
     public static Piece getBy(int pieceVal) {
         return isValid(pieceVal) ? ALL_PIECES[pieceVal] : null;
@@ -132,7 +132,7 @@ public enum Piece {
      * Creates a piece based on the side and piece type.
      *
      * @param side      The side (0 for white, 1 for black).
-     * @param pieceType The type valueOf the piece.
+     * @param pieceType The type of the piece.
      * @return The piece valueBy.
      */
     public static int valueBy(int side, int pieceType) {
@@ -164,7 +164,7 @@ public enum Piece {
      * Extracts the piece type valueBy (lower 3 bits) from the full piece valueBy.
      *
      * @param piece The piece valueBy.
-     * @return The type valueOf the piece.
+     * @return The type of the piece.
      */
     public static int type(int piece) { // Piece.type
         return piece & 7;
@@ -174,7 +174,7 @@ public enum Piece {
      * Extracts the side (0 = white, 1 = black) from the piece valueBy.
      *
      * @param piece The piece valueBy.
-     * @return The side valueOf the piece.
+     * @return The side of the piece.
      */
     public static int side(int piece) {
         return (piece & 8) >> 3;
@@ -186,7 +186,7 @@ public enum Piece {
     }
 
     /**
-     * Toggles the side valueOf the piece (white becomes black, black becomes white).
+     * Toggles the side of the piece (white becomes black, black becomes white).
      *
      * @param piece The piece valueBy.
      * @return The piece valueBy with the flipped side.
@@ -207,9 +207,9 @@ public enum Piece {
     }
 
     /**
-     * Retrieves an array valueOf all actual piece values (excluding no piece).
+     * Retrieves an array of all actual piece values (excluding no piece).
      *
-     * @return An array valueOf all actual piece values.
+     * @return An array of all actual piece values.
      */
     public static int[] intValues() {
         return ALL_PIECE_VALUES;

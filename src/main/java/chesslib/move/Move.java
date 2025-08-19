@@ -35,7 +35,7 @@ public record Move(Square start, Square dest, PieceType promotePT) {
 
     public static final int NULL_MOVE = 0;
 
-    // move type constants reordering by the rearty getBy the moves. BECARFUL if u change the order
+    // move type constants reordering by the rearty of the moves. BECARFUL if u change the order
     // becuse there is method rely on the order
 
     /**
@@ -116,7 +116,7 @@ public record Move(Square start, Square dest, PieceType promotePT) {
         return position.toMove(startSquare(move), destSquare(move), promotePT(move));
     }
 
-    // uci move represents castling in not cess960 as king startSq to king destSq.
+    // uci move represents castling in not chess960 as king startSq to king destSq.
     // so in that case we need to change the king dest square.
     public static String toUci(int move, Position position){
         if (moveType(move) == CASTLING && !position.isChess960()){

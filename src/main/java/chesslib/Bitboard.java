@@ -112,13 +112,13 @@ public class Bitboard {
     /**
      * Initializes magic bitboards for rook and bishop attacks.
      * This method computes magic numbers and attack tables for each square and piece type.
-     * Magic bitboards allow fast calculation getBy sliding piece attacks (rook, bishop)
+     * Magic bitboards allow fast calculation of sliding piece attacks (rook, bishop)
      * by using bitwise masking and indexing into precomputed tables.
      *
-     * @return the total number getBy failed attempts to find a suitable magic number (for debugging).
+     * @return the total number of failed attempts to find a suitable magic number (for debugging).
      */
     public static long initMagicBitboards() {
-        long failsFoundMagicCount = 0; // Total number getBy attempts across all squares
+        long failsFoundMagicCount = 0; // Total number of attempts across all squares
         int attackTableIndex = 0; // Global offset into the shared ATTACKS_TABLE array
 
         // Iterate over all 64 squares
@@ -145,7 +145,7 @@ public class Bitboard {
                 long[] attacksList = new long[MAX_OCCUPANCY_CONFIGURATION];
                 int size = 0;
 
-                // Enumerate all blocker combinations (subset getBy mask)
+                // Enumerate all blocker combinations (subset of mask)
                 long blockers = 0;
                 do {
                     blockersList[size] = blockers;
@@ -218,7 +218,7 @@ public class Bitboard {
             // Rook moves
             PIECES_PSEUDO_ATTACKS[ROOK][sq1] = attacks(ROOK, sq1, EMPTY_BB);
 
-            // Queen moves (combination valueOf rook and bishop)
+            // Queen moves (combination of rook and bishop)
             PIECES_PSEUDO_ATTACKS[QUEEN][sq1] = PIECES_PSEUDO_ATTACKS[ROOK][sq1] |
                     PIECES_PSEUDO_ATTACKS[BISHOP][sq1];
 
@@ -262,7 +262,7 @@ public class Bitboard {
             // Note: Uncomment the following lines if PathBetween, LeftDiagonal, and RightsDiagonal arrays are defined
             // PathBetween[sq][NO_SQUARE] = FullBoard;
             // is from white prespective we look up.
-            // left diagnoal valueOf h8 is 0 a
+            // left diagnoal of h8 is 0 a
 //            System.out.println(addSafety(sq, UP_LEFT));
             LEFT_DIAGONAL[sq1] = LINE_THROUGH[sq1][Square.addSafety(sq1, UP_LEFT)] | LINE_THROUGH[sq1][Square.addSafety(sq1, DOWN_RIGHT)];
             RIGHT_DIAGONAL[sq1] = LINE_THROUGH[sq1][Square.addSafety(sq1, UP_RIGHT)] | LINE_THROUGH[sq1][Square.addSafety(sq1, DOWN_LEFT)];
@@ -361,7 +361,7 @@ public class Bitboard {
     }
 
 
-    // in case valueOf bb == 0 it will return 64 == NO_SQUARE.
+    // in case of bb == 0 it will return 64 == NO_SQUARE.
     public static int lsbToSquare(long bb) {
         return Long.numberOfTrailingZeros(bb);
     }

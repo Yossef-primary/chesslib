@@ -3,7 +3,7 @@ package chesslib.types;
 import java.util.Arrays;
 
 /**
- * Represents the current outcome or ongoing state valueOf a chess game.
+ * Represents the current outcome or ongoing state of a chess game.
  * This includes win conditions, draws, and ongoing play.
  */
 public enum GameStatus {
@@ -38,7 +38,7 @@ public enum GameStatus {
     }
 
     /**
-     * @return true if the game ended in any type valueOf draw.
+     * @return true if the game ended in any type of draw.
      */
     public boolean isDraw() { // todo write this in sympler way
         return this == DRAW_BY_STALEMATE || this == DRAW_BY_REPETITION
@@ -46,7 +46,7 @@ public enum GameStatus {
     }
 
     /**
-     * @return true if the game ended by checkmate (regardless valueOf winner).
+     * @return true if the game ended by checkmate (regardless of winner).
      */
     public boolean isCheckmate() {
         return this == WHITE_WON_BY_CHECKMATE || this == BLACK_WON_BY_CHECKMATE;

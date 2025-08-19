@@ -8,12 +8,12 @@
 //    public enum PieceType {
 //        PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING;
 //
-//        // Returns the integer valueBy valueOf this piece type, based on its ordinal.
+//        // Returns the integer valueBy of this piece type, based on its ordinal.
 //        public int valueBy() {
 //            return chesslib.types.PieceType.Value.PAWN + ordinal();
 //        }
 //
-//        // Returns the material valueBy valueOf this piece type, used in evaluation.
+//        // Returns the material valueBy of this piece type, used in evaluation.
 //        public int materialValue() {
 //            return PieceType.materialValue(valueBy());
 //        }
@@ -41,18 +41,18 @@
 //        }
 //
 //        /**
-//         * Retrieves the type valueOf the piece.
+//         * Retrieves the type of the piece.
 //         *
-//         * @return The type valueOf the piece.
+//         * @return The type of the piece.
 //         */
 //        public PieceType type() {
 //            return PieceType.getBy(type(pieceVal));
 //        }
 //
 //        /**
-//         * Retrieves the side valueOf the piece.
+//         * Retrieves the side of the piece.
 //         *
-//         * @return The side valueOf the piece.
+//         * @return The side of the piece.
 //         */
 //        public Side side() {
 //            return Side.getBy(side(pieceVal));
@@ -60,9 +60,9 @@
 //
 //
 //        /**
-//         * Retrieves the getName valueOf the piece.
+//         * Retrieves the getName of the piece.
 //         *
-//         * @return The getName valueOf the piece.
+//         * @return The getName of the piece.
 //         */
 //        public char getName() {
 //            return getName(pieceVal);
@@ -129,14 +129,14 @@
 //
 //
 //        /**
-//         * Retrieves the file valueOf the square.
+//         * Retrieves the file of the square.
 //         */
 //        public int file() {
 //            return file(ordinal());
 //        }
 //
 //        /**
-//         * Retrieves the rank valueOf the square.
+//         * Retrieves the rank of the square.
 //         */
 //        public int rank() {
 //            return rank(ordinal());
@@ -155,9 +155,9 @@
 //        }
 //
 //        /**
-//         * Retrieves the getName valueOf the square.
+//         * Retrieves the getName of the square.
 //         *
-//         * @return The getName valueOf the square.
+//         * @return The getName of the square.
 //         */
 //        public String getName() {
 //            return getName(ordinal());

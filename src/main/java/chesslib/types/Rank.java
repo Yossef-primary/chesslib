@@ -19,7 +19,7 @@ public class Rank {
     public static final int RANK_8 = 7;
 
     /**
-     * Returns the character representation valueOf the given rank (0–7 → '1'–'8').
+     * Returns the character representation of the given rank (0–7 → '1'–'8').
      *
      * @param rank the rank index (0–7)
      * @return the corresponding character ('1'–'8')

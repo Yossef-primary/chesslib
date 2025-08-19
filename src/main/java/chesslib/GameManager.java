@@ -22,7 +22,7 @@ import static chesslib.types.Piece.getName;
 import static chesslib.types.PieceType.Value.*;
 
 /**
- * Manages the state and logic valueOf a chess game.
+ * Manages the state and logic of a chess game.
  */
 public class GameManager {
     private static final Pattern SAN_PATTERN = Pattern.compile(
@@ -169,9 +169,9 @@ public class GameManager {
     }
 
     /**
-     * Retrieves the move history valueOf the game.
+     * Retrieves the move history of the game.
      *
-     * @return a list valueOf Move objects representing the move history
+     * @return a list of Move objects representing the move history
      */
     public List<Move> moveHistory() {
         return position.moveHistory().stream().map(Move::new).toList();
@@ -189,7 +189,7 @@ public class GameManager {
     /**
      * Retrieves all legal moves in the current position.
      *
-     * @return a list valueOf Move objects representing all legal moves
+     * @return a list of Move objects representing all legal moves
      */
     public List<Move> getAllLegalMoves() {
         List<Move> result = new ArrayList<>();
@@ -206,7 +206,7 @@ public class GameManager {
      * @param from the source square for the moves
      * @return a list of Move objects representing legal moves from the source square
      */
-    public HashSet<Move> getAllLegalMoves(Square from) { // todo maybe modify this to list getBy square destination
+    public HashSet<Move> getAllLegalMoves(Square from) { // todo maybe modify this to list of square destination
         if (from == null) {
             throw new IllegalArgumentException("From square cannot be null");
         }
@@ -222,7 +222,7 @@ public class GameManager {
     }
 
 
-    // return list valueOf square that the piece on from square can move to. (all valid movment on empty board)
+    // return list of square that the piece on from square can move to. (all valid movment on empty board)
     public static Set<Move> allDestinations(Piece piece, Square from) {
         long moves = Bitboard.validDestinations(piece.side().value(), piece.type().value(), from.value());
         Set<Move> result = new HashSet<>();
@@ -233,7 +233,7 @@ public class GameManager {
 
 
     /**
-     * return the current status getBy the game.
+     * return the current status of the game.
      *
      * @return the GameStatus enum representing the game status
      */
@@ -269,19 +269,19 @@ public class GameManager {
     }
 
     /**
-     * Returns an array getBy all pieces on the board with their respective squares.
+     * Returns an array of all pieces on the board with their respective squares.
      *
-     * @return array getBy PieceSquare representing all pieces on the board
+     * @return array of PieceSquare representing all pieces on the board
      */
     public PieceSquare[] getAllPieces() {
         return extractPieceSquaresFromBitboard(position.occupancy());
     }
 
     /**
-     * Returns all pieces getBy a given side with their respective squares.
+     * Returns all pieces of a given side with their respective squares.
      *
      * @param side the side (white or black)
-     * @return array getBy PieceSquare for all pieces getBy the given side
+     * @return array of PieceSquare for all pieces of the given side
      */
     public PieceSquare[] getAllPieces(Side side) {
         return extractPieceSquaresFromBitboard(position.occupancyBySide(side.value()));
@@ -290,12 +290,12 @@ public class GameManager {
     /**
      * Helper method that extracts all pieces and their positions from a given bitboard.
      *
-     * @param bitboard bitboard getBy occupied squares
-     * @return array getBy PieceSquare from the given bitboard
+     * @param bitboard bitboard of occupied squares
+     * @return array of PieceSquare from the given bitboard
      */
     private PieceSquare[] extractPieceSquaresFromBitboard(long bitboard) {
         PieceSquare[] result = new PieceSquare[Bitboard.bitCount(bitboard)];
-        // Use an object reference to allow mutation getBy index inside lambda
+        // Use an object reference to allow mutation of index inside lambda
         var indexRef = new Object() {
             int index = 0;
         };
@@ -310,10 +310,10 @@ public class GameManager {
 
 
     /**
-     * Returns all squares occupied by a given piece type (regardless getBy side).
+     * Returns all squares occupied by a given piece type (regardless of side).
      *
      * @param pieceType the piece type to look for (e.g. Knight, Bishop)
-     * @return an array getBy squares where this piece type appears
+     * @return an array of squares where this piece type appears
      */
     public Square[] getSquaresByType(PieceType pieceType) {
         return Bitboard.getSquares(position.occupancyByType(pieceType.value()));
@@ -323,7 +323,7 @@ public class GameManager {
      * Returns all squares occupied by a specific piece (with side).
      *
      * @param piece the specific piece (e.g. white rook, black pawn)
-     * @return an array getBy squares where this piece appears
+     * @return an array of squares where this piece appears
      */
     public Square[] getSquaresByPiece(Piece piece) {
         return Bitboard.getSquares(position.occupancyByPiece(piece.value()));
@@ -345,7 +345,7 @@ public class GameManager {
         fenPieces[2 * r.nextInt(0, 4)] = 'b'; // black square bishop
         fenPieces[2 * r.nextInt(0, 4) + 1] = 'b'; // light square bishop
 
-        // 2: Shuffle all the rest valueOf the pieces
+        // 2: Shuffle all the rest of the pieces
         List<Character> pieces = new ArrayList<>(Arrays.asList('n', 'n', 'q', 'r', 'r', 'r'));
         Collections.shuffle(pieces);
 
@@ -377,18 +377,18 @@ public class GameManager {
      * Returns the number of times a specific piece appears on the board.
      *
      * @param p the piece to count
-     * @return the count getBy the piece on the board
+     * @return the count of the piece on the board
      */
     public int pieceCount(Piece p) {
         return position.pieceCount(p.value());
     }
 
     /**
-     * Returns the number getBy times a piece type appears for a given side.
+     * Returns the number of times a piece type appears for a given side.
      *
      * @param side      the side to check
-     * @param pieceType the type getBy piece to count
-     * @return the count getBy the piece type for the side
+     * @param pieceType the type of piece to count
+     * @return the count of the piece type for the side
      */
     public int pieceCount(Side side, PieceType pieceType) {
         return pieceCount(Piece.getBy(side, pieceType));
@@ -397,7 +397,7 @@ public class GameManager {
     /**
      * Returns the number getBy half-moves made in the game.
      *
-     * @return the number getBy half-moves
+     * @return the number of half-moves
      */
     public int getNumMoves() {
         return position.getNumMoves();
@@ -434,19 +434,19 @@ public class GameManager {
     }
 
     /**
-     * Returns the square getBy the king for the given side.
+     * Returns the square of the king for the given side.
      *
      * @param side the side to check
-     * @return the square getBy the king
+     * @return the square of the king
      */
     public Square kingSquare(Side side) {
         return Square.getBy(position.squareOf(side.value(), KING));
     }
 
     /**
-     * Returns the square getBy the king for the current side to move.
+     * Returns the square of the king for the current side to move.
      *
-     * @return the square getBy the king for the side to move
+     * @return the square of the king for the side to move
      */
     public Square kingSquare() {
         return kingSquare(sideToPlay());
@@ -490,7 +490,7 @@ public class GameManager {
     /**
      * Converts the last move made on the board into SAN.
      *
-     * @return the SAN representation getBy the last move
+     * @return the SAN representation of the last move
      * @throws IllegalMoveExceptions if no move has been made
      */
     public String toSanLastMove() {
@@ -537,11 +537,11 @@ public class GameManager {
 
     /**
      * Filters and returns only the legal attackers to a destination square.
-     * Returns a bitboard getBy attackers that can legally move to destSq.
+     * Returns a bitboard of attackers that can legally move to destSq.
      *
-     * @param attackers bitboard getBy possible attacking pieces
+     * @param attackers bitboard of possible attacking pieces
      * @param destSq    the destination square
-     * @return bitboard getBy attackers that can legally attack destSq
+     * @return bitboard of attackers that can legally attack destSq
      */
     private long filterLegalAttackersTo(long attackers, int destSq) {
         long result = 0L;

@@ -766,7 +766,7 @@
 //
 //
 //
-//// last version valueOf pawn moves
+//// last version of pawn moves
 //
 //
 ////

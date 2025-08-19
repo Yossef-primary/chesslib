@@ -19,7 +19,7 @@
 //import static chesslib.types.Square.getName;
 //
 ///**
-// * Manages the state and logic valueOf a chess game.
+// * Manages the state and logic of a chess game.
 // */
 //public class GameManagerOldVersion {
 //
@@ -119,7 +119,7 @@
 //     * @return the side to play
 //     */
 //    public Side sideToPlay() {
-//        return Side.valueOf(position.sideToMove());
+//        return Side.of(position.sideToMove());
 //    }
 //
 //    /**
@@ -191,7 +191,7 @@
 //     */
 //    public boolean isLegalMove(Move move) {
 //        return getMove(move) != Move.NULL_MOVE;
-//    } //todo to use is legal move valueOf class position
+//    } //todo to use is legal move of class position
 //
 //    /**
 //     * Retrieves the last move made in the current position.
@@ -199,19 +199,19 @@
 //     * @return the Move object representing the last move
 //     */
 //    public Move lastMove() {
-//        return Move.valueOf(position.getState().lastMove);
+//        return Move.of(position.getState().lastMove);
 //    }
 //
 //    /**
-//     * Retrieves the move history valueOf the game.
+//     * Retrieves the move history of the game.
 //     *
-//     * @return a list valueOf Move objects representing the move history
+//     * @return a list of Move objects representing the move history
 //     */
 //    public List<Move> moveHistory() {
 //        List<Move> result = new ArrayList<>();
 //        PositionState st = position.getState();
 //        while (st != null) {
-//            result.add(0, Move.valueOf(st.lastMove));
+//            result.add(0, Move.of(st.lastMove));
 //            st = st.previous;
 //        }
 //        return result;
@@ -221,26 +221,26 @@
 //     * Retrieves all legal moves from a specific square in the current position.
 //     *
 //     * @param from the source square for the moves
-//     * @return a list valueOf Move objects representing legal moves from the source square
+//     * @return a list of Move objects representing legal moves from the source square
 //     */
 //    public List<Move> getAllLegalMoves(Square from) {
 //        return legalMovesBySquare.get(from.valueBy());
 ////        List<Move> result = new ArrayList<>();
 ////        for (int move : moveList) {
 ////            if (Move.startSquare(move) == from.valueBy())
-////                result.add(Move.valueOf(move));
+////                result.add(Move.of(move));
 ////        }
 ////        return result;
 //    }
 //
 //
 //
-//    // return list valueOf square that the piece on from square can move to.
+//    // return list of square that the piece on from square can move to.
 //    public Set<Square> allDestinations(Piece piece, Square from){
 //        long moves = Bitboard.attacksAndMoves(piece.side().valueBy(), piece.type().valueBy(), from.valueBy(), Bitboard.EMPTY_BB, Bitboard.EMPTY_BB);
 //        Set<Square> result = new HashSet<>();
 //        for (; moves != 0; moves &= (moves - 1))
-//            result.add(Square.valueOf(lsbToSquare(moves)));
+//            result.add(Square.of(lsbToSquare(moves)));
 //        // todo if the king move add the castling square avialable
 //        return result;
 //    }
@@ -248,15 +248,15 @@
 //    /**
 //     * Retrieves all legal moves in the current position.
 //     *
-//     * @return a list valueOf Move objects representing all legal moves
+//     * @return a list of Move objects representing all legal moves
 //     */
 //    public List<Move> getAllLegalMoves() {
 //        List<Move> result = new ArrayList<>();
-//        moveList.forEach(move -> result.add(Move.valueOf(move)));
+//        moveList.forEach(move -> result.add(Move.of(move)));
 //        return result;
 //    }
 //    /**
-//     * return the current status valueOf the game.
+//     * return the current status of the game.
 //     *
 //     * @return the GameStatus enum representing the game status
 //     */
@@ -267,7 +267,7 @@
 //    public void printPosition() { position.printBoard(); }
 //
 //    /**
-//     * update the current status valueOf the game.
+//     * update the current status of the game.
 //     * update the move list.
 //     * should be called after the move made or unmade.
 //     */
@@ -278,7 +278,7 @@
 //            legalMovesBySquare.add(new ArrayList<>());
 //
 //        for (int move : moveList)
-//            legalMovesBySquare.get(Move.startSquare(move)).add(Move.valueOf(move));
+//            legalMovesBySquare.get(Move.startSquare(move)).add(Move.of(move));
 //
 //        gameStatus = moveList.size() == 0         ? !position.inCheck() ? GameStatus.DRAW_BY_STALEMATE :
 //               sideToPlay() == Side.WHITE      ? GameStatus.BLACK_WON_BY_CHECKMATE : GameStatus.WHITE_WON_BY_CHECKMATE :
@@ -297,7 +297,7 @@
 //     * @return the Piece object representing the piece on the square
 //     */
 //    public Piece getPiece(Square s) {
-//        return Piece.valueOf(position.getPiece(s.valueBy()));
+//        return Piece.of(position.getPiece(s.valueBy()));
 //    }
 //
 //    /**
@@ -315,7 +315,7 @@
 //        fenPieces[2 * r.nextInt(0, 4)] = 'b'; // black square bishop
 //        fenPieces[2 * r.nextInt(0, 4) + 1] = 'b'; // light square bishop
 //
-//        // 2: Shuffle all the rest valueOf the pieces
+//        // 2: Shuffle all the rest of the pieces
 //        List<Character> pieces = new ArrayList<>(Arrays.asList('n', 'n', 'q', 'r', 'r', 'r'));
 //        Collections.shuffle(pieces);
 //
@@ -371,7 +371,7 @@
 //        if (type == PAWN || moveType == PROMOTION) { // need the second condition because on promotion move the piece on the dest is not queen.
 //            result = isCapturing ? File.getName(file(start)) + "x" : "";
 //            result += getName(dest);
-//            result += moveType == PROMOTION ? "=" + getName(Piece.valueOf(pieceSide, promotePT(move))) : "";
+//            result += moveType == PROMOTION ? "=" + getName(Piece.of(pieceSide, promotePT(move))) : "";
 //        }
 //
 //        else if (moveType == CASTLING) {
@@ -411,12 +411,12 @@
 //
 //
 //
-//            // in case valueOf capture adding 'x'.
+//            // in case of capture adding 'x'.
 //            result += isCapturing ? "x" : "";
 //            result += getName(dest);
 //        }
 //
-//        // handle case valueOf check / checkmate
+//        // handle case of check / checkmate
 //        if (position.inCheck())
 //            result += gameStatus.isCheckmate() ? "#" : "+"; // in checkmate game status will be either black_win or white_win
 //

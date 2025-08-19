@@ -22,7 +22,7 @@ public class File {
             FILE_H = 7;
 
     /**
-     * Returns the character representation valueOf the given file (0–7 → 'a'–'h').
+     * Returns the character representation of the given file (0–7 → 'a'–'h').
      *
      * @param file the file index (0–7)
      * @return the corresponding character ('a'–'h')

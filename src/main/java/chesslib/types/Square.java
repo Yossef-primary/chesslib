@@ -27,14 +27,14 @@ public enum Square {
     }
 
     /**
-     * Retrieves the file valueOf the square.
+     * Retrieves the file of the square.
      */
     public int file() {
         return file(value());
     }
 
     /**
-     * Retrieves the rank valueOf the square.
+     * Retrieves the rank of the square.
      */
     public int rank() {
         return rank(value());
@@ -85,8 +85,8 @@ public enum Square {
     /**
      * Calculates the distance between two squares.
      *
-     * @param square1 The index valueOf the first square.
-     * @param square2 The index valueOf the second square.
+     * @param square1 The index of the first square.
+     * @param square2 The index of the second square.
      * @return The distance between the two squares.
      */
     public static int distance(int square1, int square2) {
@@ -97,8 +97,8 @@ public enum Square {
     /**
      * Flips the square horizontally.
      *
-     * @param square The index valueOf the square to be flipped.
-     * @return The index valueOf the flipped square.
+     * @param square The index of the square to be flipped.
+     * @return The index of the flipped square.
      */
     public static int flipped(int square) {
         return square ^ 56;
@@ -108,18 +108,18 @@ public enum Square {
      * Flips the square horizontally based on the side. only flip if side is black.
      *
      * @param side   The side (0 for white, 1 for black).
-     * @param square The index valueOf the square to be flipped.
-     * @return The index valueOf the flipped square.
+     * @param square The index of the square to be flipped.
+     * @return The index of the flipped square.
      */
     public static int flippedIfBlack(int side, int square) {
         return (square ^ (56 * side));
     }
 
     /**
-     * Retrieves the file valueOf the square.
+     * Retrieves the file of the square.
      *
-     * @param square The index valueOf the square.
-     * @return The file valueOf the square.
+     * @param square The index of the square.
+     * @return The file of the square.
      */
     public static int file(int square) {
         assert isValid(square);
@@ -127,10 +127,10 @@ public enum Square {
     }
 
     /**
-     * Retrieves the rank valueOf the square.
+     * Retrieves the rank of the square.
      *
-     * @param square The index valueOf the square.
-     * @return The rank valueOf the square.
+     * @param square The index of the square.
+     * @return The rank of the square.
      */
     public static int rank(int square) {
         assert isValid(square);
@@ -159,8 +159,8 @@ public enum Square {
     /**
      * Creates a square based on the square getName.
      *
-     * @param name The getName valueOf the square (e.g., "A1").
-     * @return The index valueOf the created square.
+     * @param name The getName of the square (e.g., "A1").
+     * @return The index of the created square.
      */
     public static int valueBy(String name) {
         return isValid(name) ?
@@ -173,7 +173,7 @@ public enum Square {
      *
      * @param file The file index (0 to 7).
      * @param rank The rank index (0 to 7).
-     * @return The index valueOf the created square.
+     * @return The index of the created square.
      */
     public static int valueBy(int file, int rank) {
         return File.isValid(file) && Rank.isValid(rank)
@@ -205,10 +205,10 @@ public enum Square {
     }
 
     /**
-     * Retrieves the getName valueOf the square.
+     * Retrieves the getName of the square.
      *
-     * @param square The index valueOf the square.
-     * @return The getName valueOf the square.
+     * @param square The index of the square.
+     * @return The getName of the square.
      */
     public static String getName(int square) {
         return isValid(square)

@@ -79,9 +79,9 @@ A lightweight Java library for chess move generation, FEN parsing, and position 
     gameManager.moveHistory();
     }
     
-    // ----------------------------
-    // 2. FEN Example
-    // ----------------------------
+
+    // FEN Example
+
     {
     String fen = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1";
     GameManager gameManager1 = new GameManager(fen); // Initialize with FEN
@@ -90,9 +90,8 @@ A lightweight Java library for chess move generation, FEN parsing, and position 
     System.out.println("Current FEN: " + gameManager1.getFen());
     }
     
-    // ----------------------------
-    // 3. SAN Moves Example
-    // ----------------------------
+    // SAN Moves Example
+
     {
     GameManager gameManager = new GameManager();
     
@@ -108,25 +107,26 @@ A lightweight Java library for chess move generation, FEN parsing, and position 
     System.out.println("Black move SAN: " + gameManager.toSan(blackMove));
     }
     
-    // ----------------------------
-    // 4. Chess960 Example
-    // ----------------------------
+
+    // Chess960 Example
+
     {
     // Create a random Chess960 starting position
     String chess960Fen = GameManager.createChess960Fen();
     GameManager gameManager = new GameManager(chess960Fen);
-    System.out.println("Is this Chess960? " + gameManager.isChess960());
+    System.out.println(gameManager.isChess960()); // print true
     
 
 
 ### Advanced Usage of the chess library for fast operations.
 
-     // Starting FEN position
      String fenStartingPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
      Position position = new Position(fenStartingPosition);
+
      // Make a move using the int representation of a move.
      // Move.create(fromSquare, toSquare, moveType) generates the internal integer encoding for the move.
      // Move types include NORMAL, PAWN_PUSH_TWICE, CASTLING, PROMOTION, etc.
+     
      int move = Move.create(Square.Value.E2, Square.Value.E4, Move.PAWN_PUSH_TWICE);
      position.makeMove(move); // Apply the move to the position
     
@@ -134,16 +134,16 @@ A lightweight Java library for chess move generation, FEN parsing, and position 
      // Here using a normal knight move from G8 to F6
      int blackMove = Move.create(Square.Value.G8, Square.Value.F6, Move.NORMAL);
      position.makeMove(blackMove); // Apply black's move
-    
-    
-    
+
      // Get board occupancy as 64-bit bitboard
      long occupancyBitboard = position.occupancy();
-    
+
      // Generate all legal moves
      MoveList moveList = new MoveList(position);
      for (int move1 : moveList) {
          // Process each move
+         int startSquare = Move.start(move1);
+         String moveName = Move.getName(move);
      }
      System.out.println("Number of legal moves: " + moveList.size()); // Output: Number of legal moves: 30
     

@@ -47,7 +47,7 @@ public class Direction {
      * Returns the forward direction relative to the side.
      * Returns the direction for the pawn based on the side.
      *
-     * @param side The side valueOf the pawn (WHITE_VAL or BLACK_VAL).
+     * @param side The side of the pawn (WHITE_VAL or BLACK_VAL).
      * @return The direction for the pawn.
      */
     public static int forward(int side) {
@@ -58,8 +58,8 @@ public class Direction {
     /**
      * Returns all possible directions for a given piece type.
      *
-     * @param pieceType The type valueOf the chess piece.
-     * @return An array valueOf directions for the specified piece type.
+     * @param pieceType The type of the chess piece.
+     * @return An array of directions for the specified piece type.
      */
     public static int[] allDirections(int pieceType) {
         assert PieceType.isValid(pieceType);
