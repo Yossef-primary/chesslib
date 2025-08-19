@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="readme edit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/chesslib/test/Example.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/Bitboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/Bitboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/Position.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/trash/GameManagerOldVersion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/trash/GameManagerOldVersion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/trash/posnew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/trash/posnew.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +94,7 @@
       <option name="presentableId" value="Default" />
       <updated>1755531513802</updated>
       <workItem from="1755531514973" duration="11137000" />
-      <workItem from="1755606564082" duration="3719000" />
+      <workItem from="1755606564082" duration="4464000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1755531717791</created>
@@ -165,7 +159,14 @@
       <option name="project" value="LOCAL" />
       <updated>1755607191080</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="readme edit">
+      <created>1755610300713</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1755610300713</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
