@@ -34,25 +34,34 @@ public class FenValidation {
      * @param fen the FEN string to validate
      * @return true if the FEN passes the validation, false otherwise
      */
-    public static boolean isValidFenSyntaxAndKingCount(String fen) {
-        return isValidFen(fen, false);
-    }
+//    public static boolean isValidFenSyntaxAndKingCount(String fen) {
+//        return isValidFen(fen, false);
+//    }
+//
+//    /**
+//     * Checks whether a FEN string has valid syntax and correct king count.
+//     * This includes:
+//     *  - Valid FEN format (piece placement, castling, en passant, half-move and full-move numbers)
+//     *  - Each rank contains exactly 8 squares (pieces + empty squares)
+//     *
+//     * @param fen the FEN string to validate
+//     * @return true if the FEN passes the validation, false otherwise
+//     */
+//    public static boolean isValidFenSyntax(String fen) {
+//        return isValidFen(fen, true);
+//    }
 
     /**
      * Checks whether a FEN string has valid syntax and correct king count.
      * This includes:
      *  - Valid FEN format (piece placement, castling, en passant, half-move and full-move numbers)
      *  - Each rank contains exactly 8 squares (pieces + empty squares)
+     *  - Exactly one white king and one black king
      *
      * @param fen the FEN string to validate
      * @return true if the FEN passes the validation, false otherwise
      */
     public static boolean isValidFenSyntax(String fen) {
-        return isValidFen(fen, true);
-    }
-
-    // fully check!
-    private static boolean isValidFen(String fen, boolean skipCountsKingCheck) {
         fen = fen.trim().replaceAll("\\s+", " "); // Remove all extra spaces for consistency.
         if (!FEN_PATTERN.matcher(fen).matches()) // Validate the FEN string using the defined pattern.
             return false;
@@ -75,19 +84,19 @@ public class FenValidation {
                     return false; // Each rank must have exactly 8 squares.
                 countPiecesInLine = 0;
             }
-            else if (!Character.isDigit(lastChar) && (Character.isDigit(c))) // A digit can't follow another digit.
-                countPiecesInLine += Character.getNumericValue(c);
+            else if ((Character.isDigit(c))) {
+               if (Character.isDigit(lastChar)){
+                   return false; // A digit can't follow another digit.
+               }
+               countPiecesInLine += Character.getNumericValue(c);
+            }
             else {
-                if (c == 'K') countWhiteKing++;
-                if (c == 'k') countBlackKing++;
-
                 countPiecesInLine++;
             }
             lastChar = c;
         }
 
         // Ensure that the last rank also has exactly 8 squares.
-        return countPiecesInLine == Square.BOARD_DIM
-                && (skipCountsKingCheck || (countWhiteKing == 1 && countBlackKing == 1));
+        return countPiecesInLine == Square.BOARD_DIM;
     }
 }

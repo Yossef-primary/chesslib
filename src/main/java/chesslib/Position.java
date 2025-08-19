@@ -143,29 +143,28 @@ public class Position {
      * <p>
      * FEN Format:
      * 1. Board state: The arrangement of pieces on the chessboard. Each rank is represented by a string of characters.
-     * Pieces are represented by their initials, and empty squares by a number representing the count of consecutive empty squares.
-     * <p>
+     *    Pieces are represented by their initials, and empty squares by a number representing the count of consecutive empty squares.
      * 2. Color to move: 'w' for white, 'b' for black.
-     * <p>
      * 3. Castling rights: A combination of 'K', 'Q', 'k', 'q' to indicate whether castling is allowed for each side.
-     * 'K' and 'k' represent king side castling, while 'Q' and 'q' represent queen side castling. If castling is not
-     * allowed for a side, it is represented by '-'.
-     * <p>
-     * 4. En passant square: The square where an en passant capture is possible. Represented by the square's getName,
-     * e.g., 'e3'. If there is no en passant square, it is represented by '-'.
-     * <p>
+     *    'K' and 'k' represent kingside castling, 'Q' and 'q' represent queenside castling. If castling is not allowed, use '-'.
+     * 4. En passant square: The square where an en passant capture is possible. Represented by the square's name, e.g., 'e3'. Use '-' if none.
      * 5. Rule50: The half-move clock, indicating the number of half-moves since the last capture or pawn move.
+     * 6. Full move count: The number of the full move. Starts at 1 and increments after each move by black.
      * <p>
-     * 6. Full move count: The number of the full move. It starts at 1 and is incremented after each move by black.
+     * Validation and safety checks performed by this method:
+     * - Ensures exactly one white king and one black king are present.
+     * - Ensures no pawns are placed on the first or last rank.
+     * - Validates that castling rights match the actual pieces on the board.
+     * - Validates that the opponent king is not in check when the side to move is set.
+     * - Sets up all internal data structures including occupancy bitboards, castling masks, en passant squares, repetition keys, and state.
      * <p>
-     * Note: This method assumes the provided FEN is valid and performs the necessary updates to the internal state
-     * and position count table. It initializes the board, castling options, en passant, and other related data
-     * structures based on the parsed FEN information.
+     * Note: If any of the above validations fail, an {@link IllegalPositionException} is thrown.
      *
      * @param fen The FEN string representing the chess position.
+     * @throws IllegalPositionException if the FEN represents an invalid or illegal chess position.
      */
-    public void setFen(String fen) {
-        assert FenValidation.isValidFenSyntaxAndKingCount(fen);
+    public void setFen(String fen) throws IllegalPositionException{
+        assert FenValidation.isValidFenSyntax(fen);
 
         // 0. pars fen
         String[] fenParts = splitFen(fen);
@@ -204,6 +203,16 @@ public class Position {
             else // add piece and advance square
                 addPiece(Piece.valueBy(c), square++);
         }
+
+        // validate kings counts and pawn placement:
+        if (pieceCount(WHITE_KING) != 1 || pieceCount(BLACK_KING) != 1){
+            throw new IllegalPositionException("Invalid number of kings");
+        }
+
+        if ((occupancyByType(PAWN) & (RANK_1_BB | RANK_8_BB)) != 0) {
+            throw new IllegalPositionException("Pawn on first or last rank");
+        }
+
 
         int[] kingsSquares = {squareOf(WHITE_KING), squareOf(BLACK_KING)};
 
@@ -279,7 +288,11 @@ public class Position {
 
         ++repetitionList[(int) (REPETITION_MASK & state.key)];
 
-        positionIsLegalOrThrow();
+        // The opponent side to move must not be in check.
+        if (attackersBB(sideToMove, squareOf(Side.flipped(sideToMove), KING), occupancy()) != 0)
+            throw new IllegalPositionException("King not in the side to move is under attack");
+
+        assert positionIsLegal();
     }
 
     /**

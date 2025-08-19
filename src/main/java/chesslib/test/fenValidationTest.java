@@ -45,6 +45,7 @@ public class fenValidationTest {
 
         // now we update the FenValidation not to track the order
         String[] notValidFens = {
+                "bbnqrkrn/pppppp11/8/8/8/8/PPPPPPPP/BBNQRKRN w GEge - 0 1", // number after number
                 "bbnnqrkr /pppppppp/8/8/8/8/PPPPPPPP/BBNNQRKR w HFhf - 0 1",
                 "bbnnrkqr/pppppppp/8/8/8/8/PPPPPPPP/BBNNRKQR w HEhe - 0 1k",
                 "bbnnrkrq/pppppppp/8/8/8/8/PPPPPPPP/BBNNRKRQ w GEgee - 0 1",
@@ -60,9 +61,9 @@ public class fenValidationTest {
                 "bbnrkrnq/pppppppp/8/8/8/8/PPPPPPPP/ w FDfd - 0 1",
                 "bbnrkrqn/pppppppp/8/8/8/8/PPPPPPPP/BBNRKRQN w FDfd - 0 -1",
                 "oajg9u490   94u4tg20   ut8g gu20og[paoes;i0",
-                "bbnrqqrn/pppppppp/8/8/8/8/PPPPPPPP/BBNRKQRN w GDgd - 0 1",
-                "bbnrkknq/pppppppp/8/8/8/8/PPPPPPPP/BBNRKRNQ w Fa - 0 1",
-                "bbnr1rqn/pppppppp/8/8/8/8/PPPPP1PP/BBNR1RQN w d - 10 1",
+//                "bbnrqqrn/pppppppp/8/8/8/8/PPPPPPPP/BBNRKQRN w GDgd - 0 1", // king miss
+//                "bbnrkknq/pppppppp/8/8/8/8/PPPPPPPP/BBNRKRNQ w Fa - 0 1", // to many kings
+//                "bbnr1rqn/pppppppp/8/8/8/8/PPPPP1PP/BBNR1RQN w d - 10 1", // king miss
 
                 "bbnnrqkr/pp3ppp/8/8/8/8/PPPPPPPP/BNNRQKR w Kk - 0 1",
                 "bbnnrqkr/pp3ppp/8/8/8/8/PPPPPPPP/BBNNRQKR  Kk - 0 1",
@@ -78,16 +79,16 @@ public class fenValidationTest {
         };
 
 
-        FenValidation.isValidFenSyntaxAndKingCount("bbnnrkqr/pppppppp/8/8/8/8/PPPPPPPP/BBNNRKQR w Ee - 0 1");
+        FenValidation.isValidFenSyntax("bbnnrkqr/pppppppp/8/8/8/8/PPPPPPPP/BBNNRKQR w Ee - 0 1");
         for (String fen : validFens) {
-            if (!FenValidation.isValidFenSyntaxAndKingCount(fen)){
+            if (!FenValidation.isValidFenSyntax(fen)){
                 throw new RuntimeException("Excepted: valid fen. Got not valid. Fen: " + fen);
             }
 //            assert FenValidation.isValidFenSyntaxAndKingCount(fen) : fen;
         }
 
         for (String fen : notValidFens) {
-            if (FenValidation.isValidFenSyntaxAndKingCount(fen)) {
+            if (FenValidation.isValidFenSyntax(fen)) {
                 throw new RuntimeException("Excepted: NOT valid fen. Got valid Fen: " + fen);
             }
         }

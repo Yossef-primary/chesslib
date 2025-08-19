@@ -4,25 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="readme edit">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/Bitboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/Bitboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/PositionState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/PositionState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/move/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/move/Move.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/move/MoveGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/move/MoveGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/trash/ChessTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/trash/ChessTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/trash/ChessTypes2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/trash/ChessTypes2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/trash/GameManagerOldVersion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/trash/GameManagerOldVersion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/trash/posnew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/trash/posnew.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/trash/ttt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/trash/ttt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/types/Direction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/types/Direction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/types/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/types/File.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/types/GameStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/types/GameStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/types/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/types/Piece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/types/Rank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/types/Rank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/types/Side.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/types/Side.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/types/Square.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/types/Square.java" afterDir="false" />
+    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="clean comments">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/FenValidation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/FenValidation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/Position.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/test/fenValidationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/test/fenValidationTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +96,7 @@
       <option name="presentableId" value="Default" />
       <updated>1755531513802</updated>
       <workItem from="1755531514973" duration="11137000" />
-      <workItem from="1755606564082" duration="5330000" />
+      <workItem from="1755606564082" duration="7459000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1755531717791</created>
@@ -189,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1755611088413</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="clean comments">
+      <created>1755611959868</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1755611959868</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -209,7 +202,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init commit" />
     <MESSAGE value="readme edit" />
-    <option name="LAST_COMMIT_MESSAGE" value="readme edit" />
+    <MESSAGE value="clean comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="clean comments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -220,8 +214,13 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/chesslib/Position.java</url>
-          <line>941</line>
+          <line>954</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/chesslib/test/fenValidationTest.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
