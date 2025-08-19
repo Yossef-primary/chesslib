@@ -1,11 +1,9 @@
-Readme
-# ChessLib ♟️
-A lightweight Java library for chess move generation, FEN/PGN parsing, and position validation.
+# Java Chess Library ♟️
+A lightweight Java library for chess move generation, FEN parsing, and position validation.
 
 ## Features
 - Full legal move generation (supports Chess960)
-- FEN & PGN parsing/validation
-- Perft debugging
+- FEN parsing/validation
 - Bitboard-based engine foundation
 
 ## Installation
