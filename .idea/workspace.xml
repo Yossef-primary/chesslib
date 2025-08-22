@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="add a validation in setFen at Position &#10;and fix the ecception of FenValidation with fen with didtif fllow onother digit" />
+    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="add a validation in setFen at Position &#10;and fix the ecception of FenValidation with fen with didtif fllow onother digit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -91,7 +94,7 @@
       <option name="presentableId" value="Default" />
       <updated>1755531513802</updated>
       <workItem from="1755531514973" duration="11137000" />
-      <workItem from="1755606564082" duration="8103000" />
+      <workItem from="1755606564082" duration="8786000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1755531717791</created>
@@ -184,7 +187,14 @@
       <option name="project" value="LOCAL" />
       <updated>1755614867002</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="add a validation in setFen at Position &#10;and fix the ecception of FenValidation with fen with didtif fllow onother digit">
+      <created>1755615740822</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1755615740822</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

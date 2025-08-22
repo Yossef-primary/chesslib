@@ -78,7 +78,7 @@ public class GameManager {
 
     private void setFen(String newFen, boolean validateFen) {
         if (validateFen) {
-            if (!FenValidation.isValidFenSyntax(newFen)) {
+            if (newFen == null || !FenValidation.isValidFenSyntax(newFen)) {
                 throw new IllegalPositionException(INVALID_FEN_SYNTAX);
             }
             position = new Position(newFen);
