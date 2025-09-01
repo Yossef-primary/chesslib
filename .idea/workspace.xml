@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="add a validation in setFen at Position &#10;and fix the ecception of FenValidation with fen with didtif fllow onother digit">
+    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="add on a set fen in game manager fen null check">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/GameManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +93,7 @@
       <option name="presentableId" value="Default" />
       <updated>1755531513802</updated>
       <workItem from="1755531514973" duration="11137000" />
-      <workItem from="1755606564082" duration="8786000" />
+      <workItem from="1755606564082" duration="10022000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1755531717791</created>
@@ -194,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1755615740822</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="add on a set fen in game manager fen null check">
+      <created>1755867996787</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1755867996787</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,7 +222,8 @@
     <MESSAGE value="readme edit" />
     <MESSAGE value="clean comments" />
     <MESSAGE value="add a validation in setFen at Position &#10;and fix the ecception of FenValidation with fen with didtif fllow onother digit" />
-    <option name="LAST_COMMIT_MESSAGE" value="add a validation in setFen at Position &#10;and fix the ecception of FenValidation with fen with didtif fllow onother digit" />
+    <MESSAGE value="add on a set fen in game manager fen null check" />
+    <option name="LAST_COMMIT_MESSAGE" value="add on a set fen in game manager fen null check" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

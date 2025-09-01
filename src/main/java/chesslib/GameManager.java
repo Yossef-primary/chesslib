@@ -37,6 +37,7 @@ public class GameManager {
 
     // optional
     private volatile MoveList moveList;
+    private volatile GameStatus gameStatus;
 
 
     public static boolean isFenRepresentLegalPosition(String fen) {
@@ -87,6 +88,7 @@ public class GameManager {
             position = new Position(newFen);
         }
         moveList = null;
+        gameStatus = null;
     }
 
     /**
@@ -141,6 +143,7 @@ public class GameManager {
         int m = toIntMove(move);
         position.makeMove(m);
         moveList = null;
+        gameStatus = null;
     }
 
 
@@ -152,6 +155,7 @@ public class GameManager {
         if (position.lastMove() != Move.NULL_MOVE) {
             position.undoMove();
             moveList = null;
+            gameStatus = null;
         }
     }
 
@@ -238,13 +242,16 @@ public class GameManager {
      * @return the GameStatus enum representing the game status
      */
     public GameStatus gameStatus() {
-        MoveList moveList = getMoveList();
-        return moveList.size() == 0 ? !position.inCheck() ? GameStatus.DRAW_BY_STALEMATE
-                : sideToPlay() == Side.WHITE ? GameStatus.BLACK_WON_BY_CHECKMATE : GameStatus.WHITE_WON_BY_CHECKMATE
-                : position.inInsufficientMaterial() ? GameStatus.DRAW_BY_INSUFFICIENT_MATERIAL
-                : position.inVerifiedThreeFoldRepetition() ? GameStatus.DRAW_BY_REPETITION
-                : position.inRule50() ? GameStatus.DRAW_BY_REACH_RULE_50
-                : GameStatus.ONGOING;
+        if (gameStatus == null) {
+            MoveList moveList = getMoveList();
+            gameStatus =  moveList.size() == 0 ? !position.inCheck() ? GameStatus.DRAW_BY_STALEMATE
+                    : sideToPlay() == Side.WHITE ? GameStatus.BLACK_WON_BY_CHECKMATE : GameStatus.WHITE_WON_BY_CHECKMATE
+                    : position.inInsufficientMaterial() ? GameStatus.DRAW_BY_INSUFFICIENT_MATERIAL
+                    : position.inVerifiedThreeFoldRepetition() ? GameStatus.DRAW_BY_REPETITION
+                    : position.inRule50() ? GameStatus.DRAW_BY_REACH_RULE_50
+                    : GameStatus.ONGOING;
+        }
+        return gameStatus;
     }
 
 
