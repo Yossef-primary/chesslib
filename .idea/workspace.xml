@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="add on a set fen in game manager fen null check">
+    <list default="true" id="0091534e-4c72-4a80-9737-4c8eaeab8995" name="Changes" comment="update &#10;    private void setFen(String newFen, boolean validateFen) {&#10;        if (validateFen) {&#10;            if (newFen == null || !FenValidation.isValidFenSyntax(newFen)) {&#10;                throw new IllegalPositionException(INVALID_FEN_SYNTAX);&#10;            }&#10;            position = new Position(newFen);&#10;            position.positionIsLegalOrThrow();&#10;        } else {&#10;            position = new Position(newFen);&#10;        }&#10;        moveList = null;&#10;        gameStatus = null;&#10;    }&#10;add game status saving on game manager">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chesslib/FenValidation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chesslib/FenValidation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,6 +95,8 @@
       <updated>1755531513802</updated>
       <workItem from="1755531514973" duration="11137000" />
       <workItem from="1755606564082" duration="10022000" />
+      <workItem from="1756733619179" duration="188000" />
+      <workItem from="1756840535892" duration="718000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1755531717791</created>
@@ -200,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1755867996787</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="update &#10;    private void setFen(String newFen, boolean validateFen) {&#10;        if (validateFen) {&#10;            if (newFen == null || !FenValidation.isValidFenSyntax(newFen)) {&#10;                throw new IllegalPositionException(INVALID_FEN_SYNTAX);&#10;            }&#10;            position = new Position(newFen);&#10;            position.positionIsLegalOrThrow();&#10;        } else {&#10;            position = new Position(newFen);&#10;        }&#10;        moveList = null;&#10;        gameStatus = null;&#10;    }&#10;add game status saving on game manager">
+      <created>1756733791682</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1756733791683</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,7 +233,8 @@
     <MESSAGE value="clean comments" />
     <MESSAGE value="add a validation in setFen at Position &#10;and fix the ecception of FenValidation with fen with didtif fllow onother digit" />
     <MESSAGE value="add on a set fen in game manager fen null check" />
-    <option name="LAST_COMMIT_MESSAGE" value="add on a set fen in game manager fen null check" />
+    <MESSAGE value="update &#10;    private void setFen(String newFen, boolean validateFen) {&#10;        if (validateFen) {&#10;            if (newFen == null || !FenValidation.isValidFenSyntax(newFen)) {&#10;                throw new IllegalPositionException(INVALID_FEN_SYNTAX);&#10;            }&#10;            position = new Position(newFen);&#10;            position.positionIsLegalOrThrow();&#10;        } else {&#10;            position = new Position(newFen);&#10;        }&#10;        moveList = null;&#10;        gameStatus = null;&#10;    }&#10;add game status saving on game manager" />
+    <option name="LAST_COMMIT_MESSAGE" value="update &#10;    private void setFen(String newFen, boolean validateFen) {&#10;        if (validateFen) {&#10;            if (newFen == null || !FenValidation.isValidFenSyntax(newFen)) {&#10;                throw new IllegalPositionException(INVALID_FEN_SYNTAX);&#10;            }&#10;            position = new Position(newFen);&#10;            position.positionIsLegalOrThrow();&#10;        } else {&#10;            position = new Position(newFen);&#10;        }&#10;        moveList = null;&#10;        gameStatus = null;&#10;    }&#10;add game status saving on game manager" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

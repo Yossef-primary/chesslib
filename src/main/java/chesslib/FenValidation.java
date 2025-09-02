@@ -2,25 +2,26 @@ package chesslib;
 
 import chesslib.types.Square;
 
+import java.util.Arrays;
+import java.util.Random;
 import java.util.regex.Pattern;
 /**
-todo give a short doc
+ todo give a short doc
 
  */
 public class FenValidation {
-    private static final Pattern FEN_CASTLING_PATTERN = Pattern.compile("^(?:-|(?!.*(.).*\\1)[KQkqA-Ha-h]{1,4})$"); // this prevent duplicate char inside its not work inside the fen reges only if it stand alone
     private static final Pattern FEN_PATTERN = Pattern.compile(
             "([rkqnbpRKQNBP1-8]+/){7}[rkqnbpRKQNBP1-8]+ " // this version support pawns on first and last rank
-            // catch if the color is legal.
-            + "[wb] "
-            // catch the case the FEN is Shredder-FEN. x-fen or regular fen. not check the order of chars
-            + "(-|[KQkqA-Ha-h]{1,4}) " // for now read duplicate char in castling fen and letter prevent this on FEN_CASTLING_PATTERN
-            // catch if the en passant square is valid.
-            + "(-|[a-h][36]) "
-            // catch if the num half-move is valid.
-            + "\\d+ "
-            // catch if the num moves are valid.
-            + "\\d+"
+                    // catch if the color is legal.
+                    + "[wb] "
+                    // catch the case the FEN is Shredder-FEN. x-fen or regular fen. not check the order of chars
+                    + "(-|[KQkqA-Ha-h]{1,4}) " // for now read duplicate char in castling fen and letter prevent this on FEN_CASTLING_PATTERN
+                    // catch if the en passant square is valid.
+                    + "(-|[a-h][36]) "
+                    // catch if the num half-move is valid.
+                    + "\\d+ "
+                    // catch if the num moves are valid.
+                    + "\\d+"
     );
 
 
@@ -43,9 +44,10 @@ public class FenValidation {
         String castlingFen = fenParts[2];
 
         // castling fen need second check to prevent duplicate chars inside
-        if (!FEN_CASTLING_PATTERN.matcher(castlingFen).matches()){
+        if (hasDuplicate(castlingFen.toCharArray())){
             return false;
         }
+
         // Validate the pieces' placement (at most 8 in every rank) and ensure that there is only
         // one king for each side.
         int countPiecesInLine = 0, countWhiteKing = 0, countBlackKing = 0;
@@ -58,10 +60,10 @@ public class FenValidation {
                 countPiecesInLine = 0;
             }
             else if ((Character.isDigit(c))) {
-               if (Character.isDigit(lastChar)){
-                   return false; // A digit can't follow another digit.
-               }
-               countPiecesInLine += Character.getNumericValue(c);
+                if (Character.isDigit(lastChar)){
+                    return false; // A digit can't follow another digit.
+                }
+                countPiecesInLine += Character.getNumericValue(c);
             }
             else {
                 countPiecesInLine++;
@@ -72,4 +74,16 @@ public class FenValidation {
         // Ensure that the last rank also has exactly 8 squares.
         return countPiecesInLine == Square.BOARD_DIM;
     }
+
+    private static boolean hasDuplicate(char[] chars){
+        for (int i = 0; i < chars.length -1; ++i) {
+            for (int k = i + 1; k < chars.length; ++k) {
+                if (chars[k] == chars[i]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
