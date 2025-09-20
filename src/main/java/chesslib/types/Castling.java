@@ -124,15 +124,6 @@ public class Castling {
         return side == WHITE? WHITE_SHORT | WHITE_LONG : BLACK_SHORT | BLACK_LONG;
     }
 
-    /** Mask of all short (king-side) castling flags. */
-    public static int shortCastling(){
-        return WHITE_SHORT | BLACK_SHORT;
-    }
-
-    /** Mask of all long (queen-side) castling flags. */
-    public static int longCastling(){
-        return WHITE_LONG | BLACK_LONG;
-    }
 
     /**
      * Both castling flags for the given side (alias of {@link #bothCastling(int)}).
