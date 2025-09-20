@@ -221,9 +221,9 @@ public class Position {
         isChess960 = true; // for begineng try to found any 960 castling
         int castlingRights = 0;
         Arrays.fill(castlingOptionsMask, ALL_CASTLING);
-
-        castlingOptionsMask[kingsSquares[WHITE]] = ALL_CASTLING - (WHITE_SHORT | WHITE_LONG);
-        castlingOptionsMask[kingsSquares[BLACK]] = ALL_CASTLING - (BLACK_SHORT | BLACK_LONG);
+        // when touching king square castling can only be one of the rights of other side
+        castlingOptionsMask[kingsSquares[WHITE]] = ALL_BLACK;
+        castlingOptionsMask[kingsSquares[BLACK]] = ALL_WHITE;
 
         char[] castlingChars = castlingFen.toCharArray();
         Arrays.sort(castlingChars);
@@ -257,7 +257,7 @@ public class Position {
 
                 //update castle right info
                 castlingRights += castleRight;
-                castlingOptionsMask[rookSq] = ALL_CASTLING - castleRight;
+                castlingOptionsMask[rookSq] = ALL_CASTLING - castleRight; // to exclude this castling right when touching rookSq
                 castlingDestSquareKing[rookSq] = destKing;
                 castlingDestSquareRook[rookSq] = destRook;
                 castlingKingPath[rookSq] = pathBetween(kingSq, destKing) & ~squareToBB(kingSq);
