@@ -261,7 +261,7 @@ public class Position {
                 castlingDestSquareKing[rookSq] = destKing;
                 castlingDestSquareRook[rookSq] = destRook;
                 castlingKingPath[rookSq] = pathBetween(kingSq, destKing) & ~squareToBB(kingSq);
-                castlingPath[rookSq] = (castlingKingPath[rookSq] | pathBetween(rookSq, destRook)) & ~squareToBB(rookSq);
+                castlingPath[rookSq] = (castlingKingPath[rookSq] | pathBetween(rookSq, destRook)) & ~(squareToBB(rookSq) | squareToBB(kingSq));
                 castlingMoves[castleRight] = Move.create(kingSq, rookSq, CASTLING);
             }
         }
@@ -496,10 +496,12 @@ public class Position {
         }
         if (moveType == NORMAL) {
             movePiece(start, dest);
-        } else if (moveType == NORMAL_PAWN_MOVE) {
+        }
+        else if (moveType == NORMAL_PAWN_MOVE) {
             movePiece(start, dest);
             state.rule50 = 0;
-        } else if (moveType == Move.PAWN_PUSH_TWICE) {
+        }
+        else if (moveType == Move.PAWN_PUSH_TWICE) {
             movePiece(start, dest);
             int epSquare = start + Direction.forward(sideMoved);
             if ((occupancyBySideAndType(sideToMove, PAWN) & pawnAttacks(sideMoved, epSquare)) != 0) {
@@ -507,14 +509,17 @@ public class Position {
                 state.key ^= enPassantKeys[epSquare];
             }
             state.rule50 = 0;
-        } else if (moveType == Move.CASTLING) { // Note: Castling move encoded dest to sq of rook
+        }
+        else if (moveType == Move.CASTLING) { // Note: Castling move encoded dest to sq of rook
             movePiece(start, castlingDestSquareKing[dest]);
             movePiece(dest, castlingDestSquareRook[dest]);
-        } else if (moveType == Move.PROMOTION) {
+        }
+        else if (moveType == Move.PROMOTION) {
             addPiece(Piece.valueBy(sideMoved, promotePT(move)), dest);
             removePiece(start);
             state.rule50 = 0;
-        } else if (moveType == Move.EN_PASSANT) {
+        }
+        else if (moveType == Move.EN_PASSANT) {
             int captureSq = dest - Direction.forward(sideMoved);
             state.capturedPiece = getPiece(captureSq);
 
